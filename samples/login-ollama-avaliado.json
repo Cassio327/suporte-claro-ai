@@ -1,0 +1,802 @@
+{
+  "timestamp": "2026-11-20T18:37:53.343588+00:00",
+  "resultados": [
+    {
+      "id": "3d5b4ac3674b40e3b1e561307a8a985f",
+      "timestamp": "2026-11-20T18:30:16.692443+00:00",
+      "perfil": {
+        "id": "P01",
+        "nivel": "leigo",
+        "estilo": "didático",
+        "canal": "chat"
+      },
+      "ticket": "No notebook, depois de digitar minha senha, volto à tela de login sem mensagem de erro. No celular ainda consigo acessar a mesma conta. Já fechei e abri o navegador.",
+      "tipo": "diagnostico",
+      "versao": "v1",
+      "provedor": "ollama",
+      "configuracao": {
+        "model": "qwen2.5:3b",
+        "temperature": 0.2,
+        "max_tokens": 1800,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "diagnostico",
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "hipoteses": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "title": "Hipoteses",
+                  "type": "array"
+                },
+                "evidencias": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "title": "Evidencias",
+                  "type": "array"
+                },
+                "dados_faltantes": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "title": "Dados Faltantes",
+                  "type": "array"
+                },
+                "conclusao_provavel": {
+                  "minLength": 1,
+                  "title": "Conclusao Provavel",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "hipoteses",
+                "evidencias",
+                "dados_faltantes",
+                "conclusao_provavel"
+              ],
+              "title": "Diagnostico",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "modelo_retornado": "qwen2.5:3b",
+      "hash_prompt": "b98bb74808e0fd2bc4fc23aae146ea1a403ca25c7dcb8bcfea6f2f2a2a40baca",
+      "chave_cache": "c693f4fa794fa3ec879afab687a4eec1ea0e19698a42a4c03d7bcff23a2bb18e",
+      "origem": "api",
+      "execucao_original": null,
+      "saida": {
+        "hipoteses": [
+          "Ocorreu um problema temporário com os servidores do site ou aplicativo.",
+          "Possível conflito entre programas em uso, causando interferência no login.",
+          "Erro de configuração do navegador ou da conexão Wi-Fi."
+        ],
+        "evidencias": [
+          "Acesso ao celular não foi afetado pelo problema.",
+          "Ocorrência do mesmo comportamento após fechar e abrir o navegador novamente."
+        ],
+        "dados_faltantes": [
+          "Detalhes específicos sobre programas em uso simultaneamente.",
+          "Versão atual do navegador e sistema operacional do notebook.",
+          "Histórico de configurações recentes no dispositivo."
+        ],
+        "conclusao_provavel": "O problema está relacionado a conflitos entre programas ou problemas temporários nos servidores, que podem ser resolvidos reiniciando o navegador ou atualizando as configurações do mesmo."
+      },
+      "avaliacao": {
+        "clareza": {
+          "nota": 3,
+          "justificativa": "A resposta está organizada em hipóteses, evidências, dados faltantes e conclusão, mas a conclusão mistura causas diferentes, como problemas nos servidores e conflitos entre programas, sem indicar qual é mais provável ou como diferenciá-las."
+        },
+        "adequacao_ao_nivel": {
+          "nota": 2,
+          "justificativa": "A resposta usa termos técnicos, como conflito entre programas, sistema operacional e configurações recentes, sem explicar o que significam ou como o cliente pode verificá-los. Para um cliente leigo e com estilo didático, a linguagem deveria ser mais simples e orientada."
+        },
+        "acionabilidade": {
+          "nota": 2,
+          "justificativa": "A resposta identifica algumas informações faltantes, mas não explica qual teste deve ser feito primeiro nem como o resultado ajudaria a distinguir as hipóteses. A conclusão também recomenda reiniciar o navegador, mesmo que o cliente já tenha informado que fez isso."
+        }
+      },
+      "avaliado_em": "2026-11-20T18:54:59.312670+00:00"
+    },
+    {
+      "id": "b0d702a4ef0140e9a31afd99942c8976",
+      "timestamp": "2026-11-20T18:31:33.644992+00:00",
+      "perfil": {
+        "id": "P01",
+        "nivel": "leigo",
+        "estilo": "didático",
+        "canal": "chat"
+      },
+      "ticket": "No notebook, depois de digitar minha senha, volto à tela de login sem mensagem de erro. No celular ainda consigo acessar a mesma conta. Já fechei e abri o navegador.",
+      "tipo": "diagnostico",
+      "versao": "v2",
+      "provedor": "ollama",
+      "configuracao": {
+        "model": "qwen2.5:3b",
+        "temperature": 0.2,
+        "max_tokens": 1800,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "diagnostico",
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "hipoteses": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "title": "Hipoteses",
+                  "type": "array"
+                },
+                "evidencias": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "title": "Evidencias",
+                  "type": "array"
+                },
+                "dados_faltantes": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "title": "Dados Faltantes",
+                  "type": "array"
+                },
+                "conclusao_provavel": {
+                  "minLength": 1,
+                  "title": "Conclusao Provavel",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "hipoteses",
+                "evidencias",
+                "dados_faltantes",
+                "conclusao_provavel"
+              ],
+              "title": "Diagnostico",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "modelo_retornado": "qwen2.5:3b",
+      "hash_prompt": "f95dada75721c5f201442a4d8237fdaec91e591d5979ffb24693158a530b9775",
+      "chave_cache": "c3a8ac9609eae5b1c3233213896c96b0eaae446b549284719aac5464c45b9df8",
+      "origem": "api",
+      "execucao_original": null,
+      "saida": {
+        "hipoteses": [
+          "O navegador está com problemas técnicos.",
+          "Há um conflito entre as configurações do sistema operacional e o aplicativo de login.",
+          "Possível falha na conexão Wi-Fi ou rede local."
+        ],
+        "evidencias": [
+          "Acesso ao mesmo dispositivo (celular) funciona normalmente.",
+          "Ocorreu sem mensagens de erro no navegador.",
+          "Tentei fechar e abrir o navegador novamente."
+        ],
+        "dados_faltantes": [
+          "Detalhes sobre atualizações recentes do sistema operacional ou aplicativo de login.",
+          "Configurações específicas do navegador e do dispositivo que podem estar conflitando.",
+          "Estado da conexão Wi-Fi ou rede local durante o incidente."
+        ],
+        "conclusao_provavel": "O problema está relacionado a um conflito entre configurações do sistema operacional e aplicativo de login, possivelmente causado por atualizações recentes ou problemas temporários na conexão de rede."
+      },
+      "avaliacao": {
+        "clareza": {
+          "nota": 3,
+          "justificativa": "A estrutura torna a resposta fácil de acompanhar, mas algumas afirmações são imprecisas. O celular é apresentado como o mesmo dispositivo, embora o problema ocorra no notebook, e a conclusão aponta um conflito de configurações sem mostrar claramente a relação entre as evidências e essa causa."
+        },
+        "adequacao_ao_nivel": {
+          "nota": 2,
+          "justificativa": "A resposta utiliza termos técnicos, como sistema operacional, configurações do dispositivo e conexão de rede, sem explicar de forma simples o que o cliente deveria observar. Para um cliente leigo e com estilo didático, faltam linguagem mais cotidiana e orientações compreensíveis."
+        },
+        "acionabilidade": {
+          "nota": 2,
+          "justificativa": "A resposta apresenta dados faltantes, mas não define qual teste deve ser feito primeiro nem como o resultado ajudaria a confirmar ou descartar as hipóteses. A conclusão aponta causas possíveis sem oferecer um próximo passo concreto para o cliente."
+        }
+      },
+      "avaliado_em": "2026-11-20T18:57:36.929315+00:00"
+    },
+    {
+      "id": "b3b94e055f694cecabb94c591e2ceab2",
+      "timestamp": "2026-11-20T18:32:47.128071+00:00",
+      "perfil": {
+        "id": "P01",
+        "nivel": "leigo",
+        "estilo": "didático",
+        "canal": "chat"
+      },
+      "ticket": "No notebook, depois de digitar minha senha, volto à tela de login sem mensagem de erro. No celular ainda consigo acessar a mesma conta. Já fechei e abri o navegador.",
+      "tipo": "resolucao",
+      "versao": "v1",
+      "provedor": "ollama",
+      "configuracao": {
+        "model": "qwen2.5:3b",
+        "temperature": 0.2,
+        "max_tokens": 1800,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "resolucao",
+            "schema": {
+              "$defs": {
+                "Passo": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "acao": {
+                      "minLength": 1,
+                      "title": "Acao",
+                      "type": "string"
+                    },
+                    "como_verificar": {
+                      "minLength": 1,
+                      "title": "Como Verificar",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "acao",
+                    "como_verificar"
+                  ],
+                  "title": "Passo",
+                  "type": "object"
+                }
+              },
+              "additionalProperties": false,
+              "properties": {
+                "passos": {
+                  "items": {
+                    "$ref": "#/$defs/Passo"
+                  },
+                  "minItems": 1,
+                  "title": "Passos",
+                  "type": "array"
+                },
+                "quando_encaminhar": {
+                  "minLength": 1,
+                  "title": "Quando Encaminhar",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "passos",
+                "quando_encaminhar"
+              ],
+              "title": "Resolucao",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "modelo_retornado": "qwen2.5:3b",
+      "hash_prompt": "4cdf26b5c1906d63d3278af1bb9f936bd2720991d30bc72bec78687bd4934be4",
+      "chave_cache": "14053cc3ceb09d579e01763dedbb344962deb13a51d6e1bacddf9476c87aabc8",
+      "origem": "api",
+      "execucao_original": null,
+      "saida": {
+        "passos": [
+          {
+            "acao": "Tente abrir uma nova aba no seu navegador para verificar se o problema persiste.",
+            "como_verificar": "Abra um novo navegador ou aba dentro do mesmo navegador, digite sua senha e veja se consegue acessar a conta sem problemas."
+          },
+          {
+            "acao": "Verifique se há atualizações pendentes no seu notebook que possam estar causando o problema.",
+            "como_verificar": "Acesse as configurações do seu computador, vá para 'Sobre o Computador' ou similar e verifique se há atualizações disponíveis."
+          },
+          {
+            "acao": "Tente acessar a conta usando um outro dispositivo ou rede de internet.",
+            "como_verificar": "Use um smartphone diferente ou uma conexão Wi-Fi diferente para tentar acessar sua conta. Isso ajudará a determinar se o problema está relacionado ao seu notebook específico."
+          }
+        ],
+        "quando_encaminhar": "Encaminhe para suporte técnico após ter realizado todos os passos acima e ainda não resolver o problema."
+      },
+      "avaliacao": {
+        "clareza": {
+          "nota": 3,
+          "justificativa": "Os passos estão separados e descrevem ações que o cliente pode tentar, mas alguns são vagos, como verificar atualizações no notebook. O teste em outro dispositivo também repete parcialmente uma informação já conhecida, pois a conta funciona no celular."
+        },
+        "adequacao_ao_nivel": {
+          "nota": 3,
+          "justificativa": "A linguagem é relativamente simples, mas termos como atualizações pendentes e configurações do computador poderiam ser explicados melhor para um cliente leigo. A resposta também não apresenta o objetivo de cada teste de forma didática."
+        },
+        "acionabilidade": {
+          "nota": 3,
+          "justificativa": "Há ações concretas e formas de verificar o resultado, mas os passos não indicam claramente o que fazer depois de cada possível resultado. O teste em outro dispositivo é pouco útil porque o ticket já informa que o acesso no celular funciona."
+        }
+      },
+      "avaliado_em": "2026-11-20T19:00:00.743846+00:00"
+    },
+    {
+      "id": "c29c436e552444f187348233532b340f",
+      "timestamp": "2026-11-20T18:33:46.770499+00:00",
+      "perfil": {
+        "id": "P01",
+        "nivel": "leigo",
+        "estilo": "didático",
+        "canal": "chat"
+      },
+      "ticket": "No notebook, depois de digitar minha senha, volto à tela de login sem mensagem de erro. No celular ainda consigo acessar a mesma conta. Já fechei e abri o navegador.",
+      "tipo": "resolucao",
+      "versao": "v2",
+      "provedor": "ollama",
+      "configuracao": {
+        "model": "qwen2.5:3b",
+        "temperature": 0.2,
+        "max_tokens": 1800,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "resolucao",
+            "schema": {
+              "$defs": {
+                "Passo": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "acao": {
+                      "minLength": 1,
+                      "title": "Acao",
+                      "type": "string"
+                    },
+                    "como_verificar": {
+                      "minLength": 1,
+                      "title": "Como Verificar",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "acao",
+                    "como_verificar"
+                  ],
+                  "title": "Passo",
+                  "type": "object"
+                }
+              },
+              "additionalProperties": false,
+              "properties": {
+                "passos": {
+                  "items": {
+                    "$ref": "#/$defs/Passo"
+                  },
+                  "minItems": 1,
+                  "title": "Passos",
+                  "type": "array"
+                },
+                "quando_encaminhar": {
+                  "minLength": 1,
+                  "title": "Quando Encaminhar",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "passos",
+                "quando_encaminhar"
+              ],
+              "title": "Resolucao",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "modelo_retornado": "qwen2.5:3b",
+      "hash_prompt": "471ec1328a3299ad3f3ccb786a93ddeb8b7fdaea4b100296831df3bdef5f7662",
+      "chave_cache": "846adac7a492a3dcc4f5435e2d43296516889afd8e4c4e2aaa9809d54c69a2a3",
+      "origem": "api",
+      "execucao_original": null,
+      "saida": {
+        "passos": [
+          {
+            "acao": "Tente novamente digitar sua senha",
+            "como_verificar": "Verifique se você está digitando corretamente sua senha"
+          },
+          {
+            "acao": "Feche e abra o navegador novamente",
+            "como_verificar": "Verifique se a tela de login aparece após fechar e abrir o navegador"
+          }
+        ],
+        "quando_encaminhar": "Encaminhe para suporte caso não funcione ou continue apresentando problemas."
+      },
+      "avaliacao": {
+        "clareza": {
+          "nota": 2,
+          "justificativa": "A resposta é curta, mas repete orientações que não ajudam a resolver ou investigar o problema. Ela pede para digitar novamente a senha e fechar o navegador, sem explicar por que essas ações seriam úteis."
+        },
+        "adequacao_ao_nivel": {
+          "nota": 3,
+          "justificativa": "A linguagem é simples para um cliente leigo, mas a explicação não é didática porque não informa o objetivo dos testes nem orienta o cliente sobre como interpretar o resultado."
+        },
+        "acionabilidade": {
+          "nota": 1,
+          "justificativa": "A resposta não oferece um próximo passo útil. O cliente já conseguiu digitar a senha e já informou que fechou e abriu o navegador, portanto os passos não ajudam a diferenciar causas nem a avançar no atendimento."
+        }
+      },
+      "avaliado_em": "2026-11-20T19:06:20.089858+00:00"
+    },
+    {
+      "id": "5e4898bbe57e4fd597bee98e2a055ef7",
+      "timestamp": "2026-11-20T18:34:46.894920+00:00",
+      "perfil": {
+        "id": "P01",
+        "nivel": "leigo",
+        "estilo": "didático",
+        "canal": "chat"
+      },
+      "ticket": "No notebook, depois de digitar minha senha, volto à tela de login sem mensagem de erro. No celular ainda consigo acessar a mesma conta. Já fechei e abri o navegador.",
+      "tipo": "perguntas",
+      "versao": "v1",
+      "provedor": "ollama",
+      "configuracao": {
+        "model": "qwen2.5:3b",
+        "temperature": 0.2,
+        "max_tokens": 1800,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "perguntas",
+            "schema": {
+              "$defs": {
+                "Pergunta": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "pergunta": {
+                      "minLength": 1,
+                      "title": "Pergunta",
+                      "type": "string"
+                    },
+                    "decisao_que_orienta": {
+                      "minLength": 1,
+                      "title": "Decisao Que Orienta",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "pergunta",
+                    "decisao_que_orienta"
+                  ],
+                  "title": "Pergunta",
+                  "type": "object"
+                }
+              },
+              "additionalProperties": false,
+              "properties": {
+                "perguntas_em_ordem": {
+                  "items": {
+                    "$ref": "#/$defs/Pergunta"
+                  },
+                  "maxItems": 3,
+                  "title": "Perguntas Em Ordem",
+                  "type": "array"
+                }
+              },
+              "required": [
+                "perguntas_em_ordem"
+              ],
+              "title": "Esclarecimento",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "modelo_retornado": "qwen2.5:3b",
+      "hash_prompt": "e839d80522eb7271c48e402d1472fa71030090e16ed31586956d57be32c9dcf7",
+      "chave_cache": "0157d0850f8e8700a684c21d96d8e06ec0cf9c53f970265a1d67a275f4e8bea3",
+      "origem": "api",
+      "execucao_original": null,
+      "saida": {
+        "perguntas_em_ordem": [
+          {
+            "pergunta": "Você já tentou reiniciar seu notebook?",
+            "decisao_que_orienta": "Reiniciar o computador para resolver problemas de login"
+          },
+          {
+            "pergunta": "Verificou se há alguma barreira de segurança no navegador?",
+            "decisao_que_orienta": "Configurar ou desativar as barreiras de segurança do navegador"
+          },
+          {
+            "pergunta": "Tente acessar a conta novamente em outro dispositivo para confirmar o problema?",
+            "decisao_que_orienta": "Testar acesso à conta em um novo dispositivo para identificar se é um problema local ou remoto"
+          }
+        ]
+      },
+      "avaliacao": {
+        "clareza": {
+          "nota": 2,
+          "justificativa": "As perguntas são curtas, mas uma delas usa a expressão vaga barreira de segurança e outra repete o teste em outro dispositivo, mesmo que o ticket já informe que a conta funciona no celular."
+        },
+        "adequacao_ao_nivel": {
+          "nota": 2,
+          "justificativa": "A linguagem é em geral simples, mas a expressão barreira de segurança não é explicada. Para um cliente leigo, as perguntas poderiam usar exemplos mais claros do que deve ser observado no notebook."
+        },
+        "acionabilidade": {
+          "nota": 1,
+          "justificativa": "As perguntas não priorizam informações que realmente faltam. A terceira repete uma informação já disponível e os campos de decisão descrevem ações genéricas, sem mostrar como cada resposta mudaria o próximo passo."
+        }
+      },
+      "avaliado_em": "2026-11-20T19:13:35.117701+00:00"
+    },
+    {
+      "id": "4a42b376ee744333a8312cb0173a935d",
+      "timestamp": "2026-11-20T18:35:51.891683+00:00",
+      "perfil": {
+        "id": "P01",
+        "nivel": "leigo",
+        "estilo": "didático",
+        "canal": "chat"
+      },
+      "ticket": "No notebook, depois de digitar minha senha, volto à tela de login sem mensagem de erro. No celular ainda consigo acessar a mesma conta. Já fechei e abri o navegador.",
+      "tipo": "perguntas",
+      "versao": "v2",
+      "provedor": "ollama",
+      "configuracao": {
+        "model": "qwen2.5:3b",
+        "temperature": 0.2,
+        "max_tokens": 1800,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "perguntas",
+            "schema": {
+              "$defs": {
+                "Pergunta": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "pergunta": {
+                      "minLength": 1,
+                      "title": "Pergunta",
+                      "type": "string"
+                    },
+                    "decisao_que_orienta": {
+                      "minLength": 1,
+                      "title": "Decisao Que Orienta",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "pergunta",
+                    "decisao_que_orienta"
+                  ],
+                  "title": "Pergunta",
+                  "type": "object"
+                }
+              },
+              "additionalProperties": false,
+              "properties": {
+                "perguntas_em_ordem": {
+                  "items": {
+                    "$ref": "#/$defs/Pergunta"
+                  },
+                  "maxItems": 3,
+                  "title": "Perguntas Em Ordem",
+                  "type": "array"
+                }
+              },
+              "required": [
+                "perguntas_em_ordem"
+              ],
+              "title": "Esclarecimento",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "modelo_retornado": "qwen2.5:3b",
+      "hash_prompt": "e6dc9a649a076f5de599f0abedb0879b51c63702fa6bc5702a17bb5b06faa08a",
+      "chave_cache": "066b2f9365e5a36b89364d9760e0bdc113783b7fcd6af78dce88e8167d85c666",
+      "origem": "api",
+      "execucao_original": null,
+      "saida": {
+        "perguntas_em_ordem": [
+          {
+            "pergunta": "Você consegue ver mensagens de erro ou aviso no computador quando você digita sua senha?",
+            "decisao_que_orienta": "Verificar se há algum problema específico com o notebook."
+          },
+          {
+            "pergunta": "O seu navegador está atualizado e sem bloqueadores ativados?",
+            "decisao_que_orienta": "Testar a conexão de rede ou reiniciar o computador."
+          },
+          {
+            "pergunta": "Tente acessar outra conta para ver se é um problema específico com essa conta?",
+            "decisao_que_orienta": "Continuar testando navegadores e redes."
+          }
+        ]
+      },
+      "avaliacao": {
+        "clareza": {
+          "nota": 2,
+          "justificativa": "As perguntas são compreensíveis isoladamente, mas a primeira repete uma informação já presente no ticket, que informa ausência de mensagem de erro. A relação entre a segunda pergunta e a decisão descrita também não está clara."
+        },
+        "adequacao_ao_nivel": {
+          "nota": 2,
+          "justificativa": "Há termos como bloqueadores ativados e conexão de rede que podem não ser claros para um cliente leigo. Faltam explicações curtas sobre o que procurar e por que isso importa."
+        },
+        "acionabilidade": {
+          "nota": 2,
+          "justificativa": "A resposta inclui perguntas que poderiam ajudar a investigar o caso, como verificar atualizações ou testar outra conta, mas não prioriza a informação mais importante e não explica com precisão qual decisão cada resposta orienta."
+        }
+      },
+      "avaliado_em": "2026-11-20T19:07:29.298453+00:00"
+    },
+    {
+      "id": "19a1d535b24040c38d44639f5663d892",
+      "timestamp": "2026-11-20T18:36:50.375603+00:00",
+      "perfil": {
+        "id": "P01",
+        "nivel": "leigo",
+        "estilo": "didático",
+        "canal": "chat"
+      },
+      "ticket": "No notebook, depois de digitar minha senha, volto à tela de login sem mensagem de erro. No celular ainda consigo acessar a mesma conta. Já fechei e abri o navegador.",
+      "tipo": "fluxo",
+      "versao": "v1",
+      "provedor": "ollama",
+      "configuracao": {
+        "model": "qwen2.5:3b",
+        "temperature": 0.2,
+        "max_tokens": 1800,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "fluxo",
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "condicao_observavel": {
+                  "minLength": 1,
+                  "title": "Condicao Observavel",
+                  "type": "string"
+                },
+                "se_sim": {
+                  "minLength": 1,
+                  "title": "Se Sim",
+                  "type": "string"
+                },
+                "se_nao": {
+                  "minLength": 1,
+                  "title": "Se Nao",
+                  "type": "string"
+                },
+                "se_inconclusivo": {
+                  "minLength": 1,
+                  "title": "Se Inconclusivo",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "condicao_observavel",
+                "se_sim",
+                "se_nao",
+                "se_inconclusivo"
+              ],
+              "title": "Fluxo",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "modelo_retornado": "qwen2.5:3b",
+      "hash_prompt": "55a7a109853a36fe8169f940309b8d3f988d56db5ca8d3e467d1301bd08bef1c",
+      "chave_cache": "daa787e9319034adc190ccfd7452a782b13b0ce22e888a45b546db5cf09effa3",
+      "origem": "api",
+      "execucao_original": null,
+      "saida": {
+        "condicao_observavel": "O cliente não está recebendo mensagens de erro no notebook após digitar sua senha, mas consegue acessar a conta no celular e no navegador.",
+        "se_sim": "Verifique se há alguma extensão bloqueando o login. Tente novamente digitando a senha diretamente sem usar a barra de endereços do navegador.",
+        "se_nao": "Verifique as configurações de segurança do seu notebook. Há algum firewall ou antivirus ativado que possa estar impedindo o login? Tente desativar temporariamente para verificar se isso resolve o problema.",
+        "se_inconclusivo": "O cliente pode precisar de assistência técnica para diagnosticar problemas internos no hardware ou software do notebook."
+      },
+      "avaliacao": {
+        "clareza": {
+          "nota": 1,
+          "justificativa": "A condição mistura informações e afirma que o cliente consegue acessar a conta no navegador, embora o problema relatado aconteça no notebook. Os caminhos também introduzem ações pouco relacionadas ao problema, como digitar a senha fora da barra de endereços."
+        },
+        "adequacao_ao_nivel": {
+          "nota": 1,
+          "justificativa": "A resposta usa termos como extensão, firewall e antivírus sem explicar como o cliente leigo deve identificá-los. A orientação para desativar temporariamente proteções do notebook também não é adequada para esse perfil."
+        },
+        "acionabilidade": {
+          "nota": 1,
+          "justificativa": "O fluxo não oferece uma sequência segura e confiável de decisões. Ele sugere desativar firewall ou antivírus sem critério claro, e os resultados dos caminhos não permitem ao cliente saber qual causa foi investigada ou o que informar ao suporte."
+        }
+      },
+      "avaliado_em": "2026-11-20T19:15:08.847288+00:00"
+    },
+    {
+      "id": "657f1bafb6fc40959e22d3aff1497ff4",
+      "timestamp": "2026-11-20T18:37:53.341575+00:00",
+      "perfil": {
+        "id": "P01",
+        "nivel": "leigo",
+        "estilo": "didático",
+        "canal": "chat"
+      },
+      "ticket": "No notebook, depois de digitar minha senha, volto à tela de login sem mensagem de erro. No celular ainda consigo acessar a mesma conta. Já fechei e abri o navegador.",
+      "tipo": "fluxo",
+      "versao": "v2",
+      "provedor": "ollama",
+      "configuracao": {
+        "model": "qwen2.5:3b",
+        "temperature": 0.2,
+        "max_tokens": 1800,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "fluxo",
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "condicao_observavel": {
+                  "minLength": 1,
+                  "title": "Condicao Observavel",
+                  "type": "string"
+                },
+                "se_sim": {
+                  "minLength": 1,
+                  "title": "Se Sim",
+                  "type": "string"
+                },
+                "se_nao": {
+                  "minLength": 1,
+                  "title": "Se Nao",
+                  "type": "string"
+                },
+                "se_inconclusivo": {
+                  "minLength": 1,
+                  "title": "Se Inconclusivo",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "condicao_observavel",
+                "se_sim",
+                "se_nao",
+                "se_inconclusivo"
+              ],
+              "title": "Fluxo",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "modelo_retornado": "qwen2.5:3b",
+      "hash_prompt": "8fcca3920d9c9756a13d58796d593b0f905ecf2f3afc9e03a9fd4f9dbb2fde4b",
+      "chave_cache": "aa39b52dc3d54599ef7ec7d24668dbca2a54b19520c61293b2bffbb2e693de5b",
+      "origem": "api",
+      "execucao_original": null,
+      "saida": {
+        "condicao_observavel": "Depois de digitar sua senha no notebook, você volta automaticamente à tela de login sem receber uma mensagem de erro.",
+        "se_sim": "Tente acessar a mesma conta em outro dispositivo ou browser para confirmar se o problema persiste. Se sim, entre em contato com suporte.",
+        "se_nao": "Verifique as configurações do seu navegador no notebook. Tente desativar os extensões e cookies temporariamente. Se ainda não funciona, entre em contato com suporte.",
+        "se_inconclusivo": "Descarte qualquer atualização recente feita ao seu sistema ou navegador. Repita o teste no notebook para confirmar se a condição persiste. Entre em contato com suporte caso seja necessário."
+      },
+      "avaliacao": {
+        "clareza": {
+          "nota": 3,
+          "justificativa": "A condição inicial é clara e os três caminhos estão organizados, mas algumas instruções são imprecisas. Por exemplo, o caminho positivo pede testar outro dispositivo, embora o ticket já informe que o acesso no celular funciona."
+        },
+        "adequacao_ao_nivel": {
+          "nota": 3,
+          "justificativa": "A linguagem é relativamente acessível, mas termos como extensões e cookies não são explicados para um cliente leigo. Uma breve orientação sobre onde encontrá-los deixaria o fluxo mais didático."
+        },
+        "acionabilidade": {
+          "nota": 2,
+          "justificativa": "O fluxo apresenta caminhos de ação, mas parte deles repete testes já realizados ou não explica como os resultados ajudam a decidir a próxima etapa. O encaminhamento ao suporte é genérico e poderia indicar quais informações levar."
+        }
+      },
+      "avaliado_em": "2026-11-20T19:15:58.934957+00:00"
+    }
+  ]
+}
