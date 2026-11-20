@@ -36,6 +36,14 @@ A CLI imprime o caminho da comparação. Execute `python -m suporte avaliar CAMI
 
 Com quatro conteúdos e duas versões, o cenário completo usa até oito chamadas em uma rodada sem cache. Se houver falha intermediária, ajuste a causa e repita o comando para aproveitar as gerações válidas já salvas. Para economizar quota, experimente primeiro `--tipo perguntas`, que compara apenas duas respostas.
 
+Durante a avaliação, a CLI apresenta cada par como A e B em ordem sorteada pelos identificadores de execução. As letras valem para aquele tipo de conteúdo. A ordem permanece estável ao retomar. Para preservar a avaliação, abra o JSON com os identificadores de versão depois de concluir as notas.
+
+Depois de avaliar, execute `python -m suporte relatorio CAMINHO`. Abra o HTML indicado no navegador para ler as respostas v1/v2 lado a lado e ver as justificativas. A última coluna calcula **nota da v2 menos nota da v1** em cada critério. Zero indica empate. O relatório abre offline, inclusive em outro computador. Para exportar de novo, use `--saida outro-nome.html`.
+
+## Gerar uma comparação pelo GitHub
+
+Também é possível fazer a rodada real pelo GitHub. Em **Settings → Secrets and variables → Actions**, cadastre o segredo de repositório `GROQ_API_KEY`. Em **Actions → Comparação real de prompts → Run workflow**, selecione `perguntas` para gerar o primeiro par do ticket de login com P01. Ao concluir, baixe e extraia o artefato `comparacao-login`. Na pasta do projeto, passe o caminho do JSON extraído ao comando `python -m suporte avaliar`. A leitura, a avaliação e a exportação do relatório funcionam offline. O workflow só inicia manualmente; uma nova execução faz novas chamadas.
+
 ## Organização
 
 | Arquivo | Uso |

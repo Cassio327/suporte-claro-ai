@@ -20,7 +20,20 @@ Para o ticket de login, o cliente já reiniciou o navegador e informou que a con
 
 A comparação fixa o texto do ticket, o perfil, o tipo, o modelo solicitado, a temperatura, o limite de saída e o formato. O histórico inclui o modelo retornado, a origem da resposta e o hash do texto de instruções. Antes de interpretar um par, confira os identificadores de modelo retornados. O identificador do cache incorpora o conteúdo efetivo das mensagens e os parâmetros. Use `--novo` para repetições independentes da aplicação.
 
-As alterações da v2 são avaliadas em conjunto. Uma comparação pequena permite discutir o comportamento naquele caso. A temperatura baixa ainda permite variação e a avaliação por uma pessoa que conhece a versão tem viés. Um passo posterior é avaliar pares com rótulos ocultos e repetir em tickets inéditos.
+As alterações da v2 são avaliadas em conjunto. Uma comparação pequena permite discutir o comportamento naquele caso. A temperatura baixa ainda permite variação. Durante a atribuição de notas, a CLI oculta a versão e ordena o par pelos identificadores aleatórios das execuções. O candidato pode reconhecer uma estratégia pelo texto. Essa limitação permanece mesmo com os rótulos ocultos. O relatório revela as versões após a avaliação e expõe empates e regressões por critério. A CLI rejeita pares com diferenças no cenário ou na configuração e modelos retornados divergentes. Se a API omitir o identificador de modelo em ambas as respostas, só é possível confirmar o modelo solicitado.
+
+### O que procurar ao ler as respostas
+
+Os exemplos abaixo orientam a leitura. Uma resposta diferente pode merecer a mesma nota quando atende ao cliente e o avaliador consegue explicar por quê.
+
+| Cenário | Sinal disponível | Pergunta para o avaliador |
+|---|---|---|
+| Login, diagnóstico | A conta continua acessível no celular | A resposta trata o acesso no celular como um sinal parcial ou afirma que a senha foi testada de novo? |
+| Login, resolução | O cliente já fechou e abriu o navegador | O próximo teste separa causas possíveis e explica o que observar em seguida? |
+| Microfone, perguntas | O cliente ouve os colegas e o ícone aparece ligado | A primeira pergunta investiga uma incerteza que muda a orientação, como qual entrada de áudio está selecionada? |
+| Upload, fluxo | O arquivo menor foi enviado na mesma rede | O fluxo propõe um teste que o cliente consegue executar e evita presumir um limite de tamanho desconhecido? |
+
+Para verificar personalização, mantenha ticket, versão e tipo fixos. Compare P01 e P02 quanto ao vocabulário, P03 e P05 quanto à viabilidade de ler a orientação em voz alta e P04 e P05 quanto ao detalhe da mensagem. Execute a comparação de versões separadamente para cada perfil.
 
 ## Estado das evidências
 

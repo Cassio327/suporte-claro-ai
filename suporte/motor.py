@@ -62,11 +62,18 @@ def consultar(payload):
         raise ValueError("A API não respondeu. Verifique a conexão e tente novamente.") from None
     try:
         corpo = resposta.json()
-        texto = corpo["choices"][0]["message"]["content"]
+        escolha = corpo["choices"][0]
+        truncada = escolha.get("finish_reason") == "length"
+        texto = escolha["message"]["content"]
+    except (ValueError, TypeError, IndexError, KeyError, AttributeError):
+        raise ValueError("Resposta da API sem conteúdo JSON utilizável.") from None
+    if truncada:
+        raise ValueError("Resposta truncada pelo limite de tokens. Revise o limite e repita as duas versões com a mesma configuração.")
+    try:
         if not isinstance(texto, str):
             raise TypeError
         return json.loads(texto), corpo.get("model")
-    except (ValueError, TypeError, IndexError, KeyError):
+    except (ValueError, TypeError):
         raise ValueError("Resposta da API sem conteúdo JSON utilizável.") from None
 
 
@@ -86,6 +93,8 @@ def gerar(pasta, perfil, ticket, tipo, versao, modelo, novo=False, chamar=consul
     if cache.exists() and not novo:
         try:
             anterior = ler(cache)
+            if anterior["chave_cache"] != chave or anterior["origem"] != "api" or not anterior["id"]:
+                raise ValueError("Identidade do registro incompatível.")
             saida = TIPOS[tipo].model_validate(anterior["saida"]).model_dump()
             modelo_retornado = anterior["modelo_retornado"]
             origem = anterior["id"]
