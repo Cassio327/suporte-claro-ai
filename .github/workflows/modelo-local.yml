@@ -1,0 +1,38 @@
+name: Experimento com modelo local
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened]
+permissions:
+  contents: read
+jobs:
+  avaliar-prompts:
+    if: github.event_name == 'workflow_dispatch' || (startsWith(github.head_ref, 'experimento/') && github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SUPORTE_PROVEDOR: ollama
+      OLLAMA_MODEL: qwen2.5:3b
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements.txt
+      - name: Iniciar a API e obter os pesos
+        run: |
+          docker run -d --name ollama -p 127.0.0.1:11434:11434 ollama/ollama:0.11.4
+          curl --retry 10 --retry-connrefused --retry-delay 2 -fsS http://127.0.0.1:11434/api/version
+          docker exec ollama ollama pull "$OLLAMA_MODEL"
+          mkdir -p rodada
+          curl -fsS http://127.0.0.1:11434/api/tags > rodada/modelos.json
+      - name: Gerar quatro pares para o ticket de login
+        run: |
+          python -m suporte comparar --perfil P01 --exemplo login --tipo todos
+          cp historico/comparacoes/*.json rodada/comparacao.json
+          echo "Revisão executada $(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rodada-local
+          path: rodada/
+          retention-days: 7

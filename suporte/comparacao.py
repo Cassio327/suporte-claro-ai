@@ -37,7 +37,8 @@ def pares(documento):
         TIPOS[tipo].model_validate(item["saida"])
         if item["avaliacao"] is not None:
             Avaliacao.model_validate(item["avaliacao"])
-        contexto = [item[k] for k in ("perfil", "ticket", "provedor", "configuracao")]
+        contexto = [item[k] for k in ("perfil", "ticket", "provedor")]
+        contexto.append({k: v for k, v in item["configuracao"].items() if k != "response_format"})
         if cenario is not None and contexto != cenario:
             raise ValueError("As entradas, o provedor ou a configuração diferem na comparação.")
         cenario = contexto
@@ -49,6 +50,8 @@ def pares(documento):
     for grupo in grupos.values():
         if set(grupo) != {"v1", "v2"}:
             raise ValueError("Cada tipo precisa de uma resposta v1 e outra v2.")
+        if grupo["v1"]["configuracao"] != grupo["v2"]["configuracao"]:
+            raise ValueError("As configurações diferem entre as versões deste tipo.")
         if grupo["v1"]["modelo_retornado"] != grupo["v2"]["modelo_retornado"]:
             raise ValueError("O provedor retornou modelos diferentes no mesmo par.")
     return grupos

@@ -92,14 +92,16 @@ def principal():
     if not ticket or not 1 <= len(ticket.strip()) <= 8000:
         raise ValueError("Informe um ticket válido ou um exemplo exibido por listar.")
     load_dotenv(RAIZ / ".env")
-    modelo = os.getenv("GROQ_MODEL", "").strip()
+    provedor = os.getenv("SUPORTE_PROVEDOR", "groq").strip().lower()
+    modelo = (os.getenv("OLLAMA_MODEL", "qwen2.5:3b") if provedor == "ollama"
+              else os.getenv("GROQ_MODEL", "")).strip()
     resultados = []
     for tipo in TIPOS if args.tipo == "todos" else [args.tipo]:
         for versao in (["v1", "v2"] if args.acao == "comparar" else [args.versao]):
             if args.acao == "prompt":
                 mostrar(mensagens(perfil, ticket.strip(), tipo, versao))
                 continue
-            item = gerar(args.pasta, perfil, ticket, tipo, versao, modelo, args.novo)
+            item = gerar(args.pasta, perfil, ticket, tipo, versao, modelo, args.novo, provedor=provedor)
             resultados.append(item)
             if args.acao == "gerar":
                 print(f"{tipo} / {versao} ({item['origem']})")

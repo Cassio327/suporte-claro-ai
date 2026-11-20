@@ -46,6 +46,19 @@ Também é possível fazer a rodada real pelo GitHub. Em **Settings → Secrets 
 
 ## Organização
 
+### Rodada com modelo local
+
+Para gerar os quatro pares sem credencial de IA, abra **Actions → Experimento com modelo local → Run workflow**. O executor baixa o Qwen 2.5 de 3 bilhões de parâmetros, inicia o servidor Ollama no próprio executor e envia oito requisições à sua API. O artefato `rodada-local` contém a comparação e o identificador dos pesos usados. O processamento utiliza minutos de GitHub Actions. Esse experimento também executa ao abrir um PR do próprio repositório cuja branch começa com `experimento/`.
+
+Em um computador com Ollama em execução, use:
+
+```bash
+ollama pull qwen2.5:3b
+SUPORTE_PROVEDOR=ollama python -m suporte comparar --perfil P01 --exemplo login --tipo todos
+```
+
+Passe o arquivo de comparação ao comando `avaliar` para registrar a rubrica. Na apresentação, identifique qual provedor gerou cada par.
+
 | Arquivo | Uso |
 |---|---|
 | `data/` | Cinco perfis fictícios e três tickets |
