@@ -48,7 +48,7 @@ Também é possível fazer a rodada real pelo GitHub. Em **Settings → Secrets 
 
 ### Rodada com modelo local
 
-Para gerar os quatro pares sem credencial de IA, abra **Actions → Experimento com modelo local → Run workflow**. O executor baixa o Qwen 2.5 de 3 bilhões de parâmetros, inicia o servidor Ollama no próprio executor e envia oito requisições à sua API. O artefato `rodada-local` contém a comparação e o identificador dos pesos usados. O processamento utiliza minutos de GitHub Actions. Esse experimento também executa ao abrir um PR do próprio repositório cuja branch começa com `experimento/`.
+Para gerar os quatro pares sem credencial de IA, abra **Actions → Experimento com modelo local → Run workflow**. O executor baixa o Qwen 2.5 de 3 bilhões de parâmetros, inicia o servidor Ollama no próprio executor e envia oito requisições à sua API. O artefato `rodada-local` contém a comparação e o identificador dos pesos usados. O processamento utiliza minutos de GitHub Actions. Esse experimento também executa ao abrir ou atualizar um PR do próprio repositório cuja branch começa com `experimento/`.
 
 Em um computador com Ollama em execução, use:
 

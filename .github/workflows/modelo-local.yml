@@ -2,7 +2,7 @@ name: Experimento com modelo local
 on:
   workflow_dispatch:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 permissions:
   contents: read
 jobs:
@@ -22,7 +22,7 @@ jobs:
       - name: Iniciar a API e obter os pesos
         run: |
           docker run -d --name ollama -p 127.0.0.1:11434:11434 ollama/ollama:0.11.4
-          curl --retry 10 --retry-connrefused --retry-delay 2 -fsS http://127.0.0.1:11434/api/version
+          curl --retry 15 --retry-all-errors --retry-delay 2 --max-time 5 -fsS http://127.0.0.1:11434/api/version
           docker exec ollama ollama pull "$OLLAMA_MODEL"
           mkdir -p rodada
           curl -fsS http://127.0.0.1:11434/api/tags > rodada/modelos.json
@@ -30,6 +30,10 @@ jobs:
         run: |
           python -m suporte comparar --perfil P01 --exemplo login --tipo todos
           cp historico/comparacoes/*.json rodada/comparacao.json
+          echo "::group::JSON do cenário fictício de login"
+          jq -c . rodada/comparacao.json
+          echo "::endgroup::"
+          jq -c . rodada/modelos.json
           echo "Revisão executada $(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         with:
