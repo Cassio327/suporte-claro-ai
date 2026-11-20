@@ -1,0 +1,60 @@
+# Suporte Claro
+
+Assistente de atendimento em português. Para um perfil e um ticket, a CLI gera diagnóstico, resolução, perguntas prioritárias ou fluxo de decisão. O comando de comparação executa as duas versões do prompt com a mesma entrada e grava as respostas para avaliação humana.
+
+## Executar no Linux
+
+Com Git e Python 3.12 instalados:
+
+```bash
+git clone https://github.com/Cassio327/suporte-claro-ai.git
+cd suporte-claro-ai
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m suporte listar
+python -m suporte prompt --perfil P01 --exemplo login --tipo diagnostico --versao v2
+```
+
+Os dois últimos comandos funcionam offline. Para gerar respostas, execute `cp .env.example .env` na primeira instalação. Abra o arquivo `.env` e preencha `GROQ_API_KEY` com sua chave. O modelo inicial é `openai/gpt-oss-20b`. Escolha outro modelo habilitado na sua conta se necessário. Consulte [os modelos da Groq](https://console.groq.com/docs/models).
+
+```bash
+python -m suporte gerar --perfil P01 --exemplo login --tipo diagnostico --versao v1
+python -m suporte gerar --perfil P01 --exemplo login --tipo diagnostico --versao v1
+python -m suporte gerar --perfil P03 --ticket "Meus colegas não me ouvem." --tipo fluxo
+```
+
+A segunda execução equivalente exibe `cache` e aponta para um novo registro com o ID da geração original. Para solicitar outra geração, acrescente `--novo`.
+
+## Comparar e avaliar
+
+```bash
+python -m suporte comparar --perfil P01 --exemplo login --tipo todos
+```
+
+A CLI imprime o caminho da comparação. Execute `python -m suporte avaliar CAMINHO`, substituindo CAMINHO pelo arquivo mostrado. Para cada resposta, leia o ticket, o perfil e a saída. Atribua três notas de 1 a 5 e escreva sua justificativa para cada nota. O programa salva após cada resposta e retoma pela próxima pendente. A comparação contém as saídas originais, metadados e avaliações em um único JSON. Copie a comparação avaliada para `samples/` para incluí-la na entrega.
+
+Com quatro conteúdos e duas versões, o cenário completo usa até oito chamadas em uma rodada sem cache. Se houver falha intermediária, ajuste a causa e repita o comando para aproveitar as gerações válidas já salvas. Para economizar quota, experimente primeiro `--tipo perguntas`, que compara apenas duas respostas.
+
+## Organização
+
+| Arquivo | Uso |
+|---|---|
+| `data/` | Cinco perfis fictícios e três tickets |
+| `suporte/prompts.py` | Persona, instruções por tarefa, versão e adaptação ao perfil |
+| `suporte/contratos.py` | Campos aceitos para cada saída e para as notas |
+| `suporte/motor.py` | Requisição à Groq, validação, cache e gravação em JSON |
+| `suporte/__main__.py` | Seleção de parâmetros, comparação e avaliação |
+| `samples/exemplos_didaticos.json` | Quatro exemplos escritos à mão para explicar o formato e testar offline |
+| `PROMPT_ENGINEERING_NOTES.md` | Desenho da comparação, hipóteses e limitações |
+
+Arquivos locais ficam em `historico/execucoes/`, `historico/cache/` e `historico/comparacoes/`. Para outro destino, use `python -m suporte --pasta DESTINO comparar ...`. A aplicação se destina a um operador por pasta. Use tickets fictícios para as amostras do repositório.
+
+## Verificação
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+Os testes simulam a resposta HTTP para verificar cache, validação, comparação dos quatro conteúdos e persistência das notas. A qualidade das respostas do modelo precisa ser aferida com a rodada real e a rubrica do candidato.
+

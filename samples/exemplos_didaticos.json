@@ -1,0 +1,38 @@
+{
+  "origem": "Exemplos redigidos para demonstrar contratos e testar a aplicação offline.",
+  "diagnostico": {
+    "hipoteses": [
+      "O navegador pode estar com uma sessão inválida."
+    ],
+    "evidencias": [
+      "O notebook volta à tela de login sem exibir erro."
+    ],
+    "dados_faltantes": [
+      "Resultado do acesso em janela privativa."
+    ],
+    "conclusao_provavel": "O relato sugere um problema local, mas ainda não identifica a causa."
+  },
+  "resolucao": {
+    "passos": [
+      {
+        "acao": "Abra uma janela privativa no notebook e tente entrar uma vez.",
+        "como_verificar": "Veja se aparece a página da conta ou se a tela de login volta."
+      }
+    ],
+    "quando_encaminhar": "Se a tela voltar, informe ao suporte o navegador e o resultado desse teste."
+  },
+  "perguntas": {
+    "perguntas_em_ordem": [
+      {
+        "pergunta": "Você consegue entrar em uma janela privativa no notebook?",
+        "decisao_que_orienta": "Se funcionar, investigar a sessão do navegador habitual."
+      }
+    ]
+  },
+  "fluxo": {
+    "condicao_observavel": "A página da conta abre em uma janela privativa?",
+    "se_sim": "Investigue os dados locais do site no navegador habitual.",
+    "se_nao": "Registre o navegador e encaminhe o resultado para análise.",
+    "se_inconclusivo": "Peça ao suporte ajuda para localizar a janela privativa."
+  }
+}
