@@ -37,7 +37,7 @@ Para verificar personalização, mantenha ticket, versão e tipo fixos. Compare 
 
 ## Estado das evidências
 
-A [rodada de login](samples/login-ollama.json) contém oito respostas geradas pela API local do Ollama com `qwen2.5:3b`. Foram usados P01 (leigo, didático, chat), o ticket `login`, temperatura 0,2 e limite de 1.800 tokens. Cada par recebeu o mesmo esquema de saída. O [manifesto do modelo](samples/login-ollama-modelo.json) registra o identificador dos pesos. A [execução do experimento](https://github.com/Cassio327/suporte-claro-ai/actions/runs/44793023471) terminou com sucesso. Os oito registros têm origem `api`. As notas e justificativas aguardam a leitura do candidato.
+A [rodada de login](samples/login-ollama.json) contém oito respostas geradas pela API local do Ollama com `qwen2.5:3b`. Foram usados P01 (leigo, didático, chat), o ticket `login`, temperatura 0,2 e limite de 1.800 tokens. Cada par recebeu o mesmo esquema de saída. O [manifesto do modelo](samples/login-ollama-modelo.json) registra o identificador dos pesos. A [execução do experimento](https://github.com/Cassio327/suporte-claro-ai/actions/runs/44793023471) terminou com sucesso. Os oito registros têm origem `api`. As notas e justificativas foram concluídas e estão preservadas em [`samples/login-ollama-avaliado.json`](samples/login-ollama-avaliado.json). A consolidação numérica, a interpretação e os limites estão em [`RESULTADOS_EXPERIMENTO.md`](RESULTADOS_EXPERIMENTO.md).
 
 <details>
 <summary>Observações da revisão técnica — abrir depois da avaliação com versões ocultas</summary>
