@@ -90,3 +90,7 @@ python -m unittest discover -s tests -v
 
 Os testes simulam a resposta HTTP para verificar cache, validação, comparação dos quatro conteúdos e persistência das notas. A qualidade das respostas do modelo precisa ser aferida com a rodada real e a rubrica do candidato.
 
+
+## Resultado da rodada incluída
+
+A avaliação humana da rodada com P01/login está concluída e preservada em [`samples/login-ollama-avaliado.json`](samples/login-ollama-avaliado.json). A v2 somou **27/60**, contra **24/60** da v1: melhora no fluxo (+5) e nas perguntas (+1), empate no diagnóstico e regressão na resolução (-3). Veja a interpretação, os controles e o próximo experimento em [`RESULTADOS_EXPERIMENTO.md`](RESULTADOS_EXPERIMENTO.md). O resultado é específico desta rodada; ele não é usado para alegar superioridade geral de uma versão.
