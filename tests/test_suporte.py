@@ -103,6 +103,22 @@ class TesteSuporte(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "truncada"):
                 consultar({})
 
+    def test_api_local_quatro_pares_com_esquema_sem_credencial(self):
+        def responder(url, **kwargs):
+            self.assertEqual(url, "http://127.0.0.1:11434/v1/chat/completions")
+            self.assertEqual(kwargs["headers"], {})
+            formato = kwargs["json"]["response_format"]["json_schema"]
+            tipo = formato["name"]
+            self.assertEqual(formato["schema"], TIPOS[tipo].model_json_schema())
+            corpo = {"model": "qwen2.5:3b", "choices": [{"message": {"content": json.dumps(EXEMPLOS[tipo])}}]}
+            return httpx.Response(200, request=httpx.Request("POST", url), json=corpo)
+        with patch.dict(os.environ, SUPORTE_PROVEDOR="ollama", GROQ_API_KEY=""), patch("httpx.post", side_effect=responder) as api:
+            self.cli("comparar", "--perfil", "P01", "--exemplo", "login", "--tipo", "todos")
+            self.assertEqual(api.call_count, 8)
+        documento = ler(next((self.pasta / "comparacoes").glob("*.json")))
+        self.assertEqual(len(pares(documento)), 4)
+        self.assertTrue(all(i["provedor"] == "ollama" for i in documento["resultados"]))
+
     def test_cache_considera_perfil_modelo_versao_e_execucao_forcada(self):
         api = Mock(return_value=(EXEMPLOS["diagnostico"], "teste"))
         def executar(perfil=PERFIL, versao="v1", modelo="a", novo=False):
