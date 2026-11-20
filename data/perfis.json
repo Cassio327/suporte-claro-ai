@@ -1,0 +1,32 @@
+[
+  {
+    "id": "P01",
+    "nivel": "leigo",
+    "estilo": "didático",
+    "canal": "chat"
+  },
+  {
+    "id": "P02",
+    "nivel": "avançado",
+    "estilo": "didático",
+    "canal": "chat"
+  },
+  {
+    "id": "P03",
+    "nivel": "intermediário",
+    "estilo": "direto",
+    "canal": "telefone"
+  },
+  {
+    "id": "P04",
+    "nivel": "intermediário",
+    "estilo": "detalhado",
+    "canal": "e-mail"
+  },
+  {
+    "id": "P05",
+    "nivel": "intermediário",
+    "estilo": "direto",
+    "canal": "e-mail"
+  }
+]
