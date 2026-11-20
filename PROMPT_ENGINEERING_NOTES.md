@@ -37,5 +37,18 @@ Para verificar personalização, mantenha ticket, versão e tipo fixos. Compare 
 
 ## Estado das evidências
 
-A primeira versão inclui exemplos didáticos e testes offline. A rodada real com a API e as justificativas do candidato estão pendentes. O arquivo final da comparação deve guardar as saídas integrais e as notas registradas com o comando avaliar.
+A [rodada de login](samples/login-ollama.json) contém oito respostas geradas pela API local do Ollama com `qwen2.5:3b`. Foram usados P01 (leigo, didático, chat), o ticket `login`, temperatura 0,2 e limite de 1.800 tokens. Cada par recebeu o mesmo esquema de saída. O [manifesto do modelo](samples/login-ollama-modelo.json) registra o identificador dos pesos. A [execução do experimento](https://github.com/Cassio327/suporte-claro-ai/actions/runs/44793023471) terminou com sucesso. Os oito registros têm origem `api`. As notas e justificativas aguardam a leitura do candidato.
+
+<details>
+<summary>Observações da revisão técnica — abrir depois da avaliação com versões ocultas</summary>
+
+No passo a passo da v2, o segundo passo pede “Feche e abra o navegador novamente”. O ticket informa literalmente que o cliente já fez isso. O critério de verificação pergunta se a tela de login aparece, comportamento esperado tanto no caso normal quanto no relatado. Apesar da instrução para aproveitar os testes realizados, a resposta oferece pouca informação para decidir o próximo passo.
+
+Nas perguntas, a primeira da v2 pede confirmação sobre mensagens de erro. O ticket já informa que o retorno à tela de login ocorre sem mensagem. Na v1, a terceira pergunta pede teste em outro dispositivo, embora o acesso no celular já seja conhecido. Em ambos os casos, caberia perguntar sobre uma condição ainda desconhecida que mude a orientação.
+
+O fluxo da v1 sugere desligar temporariamente proteções do notebook. Essa orientação é inadequada para este cenário e deve ser descartada na revisão do atendimento. O exemplo é preservado como evidência do comportamento original do modelo.
+
+O próximo experimento pode testar uma instrução curta que peça um teste reversível ainda não realizado, com dois resultados observáveis e encaminhamentos diferentes, e que proíba desativar proteções. Manter as respostas desta rodada e validar qualquer mudança em um segundo ticket inédito. Essas observações técnicas não atribuem notas ao candidato nem permitem generalizar a superioridade de uma versão.
+
+</details>
 

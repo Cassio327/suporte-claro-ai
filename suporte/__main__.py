@@ -97,6 +97,8 @@ def principal():
               else os.getenv("GROQ_MODEL", "")).strip()
     resultados = []
     for tipo in TIPOS if args.tipo == "todos" else [args.tipo]:
+        if args.acao == "comparar":
+            print(f"Comparando o par de {tipo}…", flush=True)
         for versao in (["v1", "v2"] if args.acao == "comparar" else [args.versao]):
             if args.acao == "prompt":
                 mostrar(mensagens(perfil, ticket.strip(), tipo, versao))
@@ -107,6 +109,8 @@ def principal():
                 print(f"{tipo} / {versao} ({item['origem']})")
                 mostrar(item["saida"])
                 print("Salvo em", args.pasta / "execucoes" / (item["id"] + ".json"))
+        if args.acao == "comparar":
+            print(f"Duas respostas de {tipo} registradas.", flush=True)
     if args.acao == "comparar":
         caminho = args.pasta / "comparacoes" / (uuid4().hex + ".json")
         documento = {"timestamp": agora(), "resultados": resultados}

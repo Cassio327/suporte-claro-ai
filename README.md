@@ -28,6 +28,17 @@ A segunda execução equivalente exibe `cache` e aponta para um novo registro co
 
 ## Comparar e avaliar
 
+**Avaliar uma rodada real já incluída.** A comparação com Qwen 2.5 contém oito respostas do mesmo ticket, geradas pela API durante a [execução no GitHub](https://github.com/Cassio327/suporte-claro-ai/actions/runs/44793023471). Para começar sem configurar uma chave ou baixar o modelo, ative o ambiente Python e execute:
+
+```bash
+mkdir -p historico
+cp -n samples/login-ollama.json historico/minha-avaliacao.json
+python -m suporte avaliar historico/minha-avaliacao.json
+python -m suporte relatorio historico/minha-avaliacao.json
+```
+
+O comando `avaliar` salva após cada resposta. Para retomar, execute-o novamente com a mesma cópia. Ao concluir, abra `historico/minha-avaliacao.html` e copie o JSON avaliado para `samples/login-ollama-avaliado.json` para incluir suas justificativas na entrega. As gerações são material para avaliação humana e incluem falhas de orientação.
+
 ```bash
 python -m suporte comparar --perfil P01 --exemplo login --tipo todos
 ```
