@@ -76,6 +76,23 @@ A rodada usou os mesmos pesos do Qwen e a mesma configuração da rodada de áud
 
 **Exemplo de critério de aceitação para o áudio.** Um atendente pode pedir a P01 que selecione o microfone usado na reunião, fale uma frase no teste de microfone do aplicativo, se disponível, e confira se consegue ouvir a própria gravação. Para P02, pode pedir que compare a captura do mesmo dispositivo no sistema operacional e no aplicativo. Se apenas o aplicativo falhar, vale verificar a entrada selecionada e a permissão de microfone. São exemplos de referência para revisão humana. As saídas efetivamente geradas estão preservadas nos arquivos vinculados.
 
+### Rubrica complementar do upload
+
+A avaliação abaixo é uma revisão técnica feita por IA, com as versões visíveis. A rodada de login contém a avaliação do candidato. Para registrar sua própria leitura do upload, abra [Avaliar upload](https://suporte-claro-cassio.dotingboot32.chatgpt.site/avaliar-upload.html). O formulário mostra A e B e permite baixar as seis notas com suas justificativas em um JSON compatível com `python -m suporte relatorio`.
+
+<details>
+<summary>Ver as seis notas da revisão técnica por IA</summary>
+
+| Critério | v2 | v3 |
+|---|---|---|
+| Clareza | **2/5.** O título manda reiniciar a conexão e a instrução manda reiniciar o computador. Isso deixa duas ações diferentes sob o mesmo passo. | **4/5.** Enviar 5 MB é uma ação específica. Falta distinguir em qual resultado se deve procurar suporte. |
+| Adequação a P01 | **2/5.** Pressupõe uma opção chamada “Detalhes” ou “Mais detalhes” em um aplicativo que o cliente não identificou. | **4/5.** O cliente já usa MB no relato e consegue acompanhar o progresso. Um exemplo de como escolher um arquivo intermediário ajudaria quem tem pouca experiência. |
+| Acionabilidade | **1/5.** O tamanho de 18 MB já é conhecido. A resposta termina após reiniciar, sem um resultado que ajude a localizar a falha. | **3/5.** Testar 5 MB fornece informação nova. O encaminhamento após qualquer tentativa deixa indefinido o que fazer se o teste passar ou se parar novamente. |
+
+A v3 soma 11/15 e a v2, 5/15 nesta leitura. O ganho vem principalmente de propor uma observação nova. Um envio isolado de 5 MB ainda não identifica a causa da falha. Essas notas estão separadas dos registros de geração e da avaliação humana.
+
+</details>
+
 ## Canal e estilo no mesmo ticket de upload
 
 O Qwen recebeu o mesmo relato de upload interrompido em 70%, a versão v2 de resolução e a mesma configuração. P03, P04 e P05 são clientes de nível intermediário. As três respostas originais são consultáveis no painel e no [JSON da rodada](samples/upload-comunicacao-v2.json). O [registro de execução](https://github.com/Cassio327/suporte-claro-ai/actions/runs/44871297104) identifica o modelo e seus pesos.
@@ -86,3 +103,17 @@ O Qwen recebeu o mesmo relato de upload interrompido em 70%, a versão v2 de res
 | Estilo, canal de e-mail. P05 direto e P04 detalhado | P05 deu três passos. P04 deu quatro, com exemplos de aplicativos e verificações mais extensas. | P04 sugeriu inferir o destino do envio pelo ícone e repetiu o teste com arquivo pequeno, embora o ticket já informasse que 1 MB havia funcionado. |
 
 Nesta rodada, o canal e o estilo vieram acompanhados de diferenças perceptíveis na escrita. O tom adequado não garantiu um próximo passo útil. A comparação tem uma geração por perfil, e os identificadores dos perfis também variam. Esta leitura é qualitativa. As notas do candidato permanecem no experimento de login.
+
+## Permissão de edição em um ticket inédito
+
+O colega abre o documento, só consegue visualizar e já recebeu um novo convite. Antes de executar, registramos três perguntas sobre o comportamento esperado. Usamos P01, resolução, os mesmos prompts v2 e v3 das rodadas anteriores e o mesmo Qwen, com duas repetições por versão. Cada uma das quatro chamadas tem um ID próprio e origem API. O protocolo é anterior às respostas. [Protocolo](https://github.com/Cassio327/suporte-claro-ai/pull/9) · [Execução](https://github.com/Cassio327/suporte-claro-ai/actions/runs/44911329057) · [Quatro respostas originais e identificador dos pesos](samples/permissao-v2-v3.json)
+
+| Comportamento previsto | v2 nas duas repetições | v3 nas duas repetições |
+|---|---|---|
+| Aproveitar o reenvio anterior e oferecer uma ação nova | Ambas começam conferindo a permissão. Voltam a sugerir um convite, desta vez com edição habilitada. A conferência acrescenta informação, embora o texto deixe implícita a diferença em relação ao reenvio anterior. | Ambas pedem tentar editar. O cliente já informou que o colega só consegue visualizar. Falta uma ação que possa alterar essa condição. |
+| Conferir a permissão de edição da pessoa no documento | Ambas verificam o acesso. A primeira fala da permissão concedida ao colega. A segunda presume que estará marcada como “Somente visualizar” antes da conferência. | Nenhuma orienta consultar ou ajustar a permissão do colega. |
+| Confirmar a edição e explicar o que fazer se a permissão já estiver correta | A primeira manda verificar se o colega edita, mas orienta encaminhar até quando ele consegue. A segunda verifica se o convite foi aceito e pede conferir permissões na máquina do colega, sem demonstrar que isso controla o acesso ao documento. | As duas indicam salvar uma alteração como sinal de sucesso. Encaminham ao suporte sem explicar como proceder quando o teste funciona ou qual dado levar quando falha. |
+
+Na leitura de acesso, nenhuma das quatro respostas recomenda liberar edição para qualquer pessoa com o link. O problema observado foi outro: o teste de salvar da v3 deixa de fora a permissão necessária para executá-lo.
+
+**Decisão:** manter a v2 como padrão e a v3 experimental para resolução. A v3 acrescentou um teste informativo no upload, mas omitiu a conferência de permissão em **2 de 2** gerações deste novo ticket. A v2 também precisa de revisão no encaminhamento. As quatro respostas representam duas repetições de um único ticket no mesmo modelo; os três comportamentos foram conferidos por IA e são evidência técnica complementar à rubrica do candidato.

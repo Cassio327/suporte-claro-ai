@@ -56,6 +56,12 @@ class Laboratorio:
         self.casos["canal"] = ("Upload · telefone e e-mail", [por_perfil["P03"], por_perfil["P05"]])
         self.casos["estilo"] = ("Upload · e-mail direto e detalhado", [por_perfil["P05"], por_perfil["P04"]])
 
+        permissoes = ler(arq / "permissao-v2-v3.json")
+        for numero, rodada in enumerate(permissoes["rodadas"], start=1):
+            par = pares(rodada)["resolucao"]
+            self.casos[f"permissao-{numero}"] = (
+                f"Permissão de edição · rodada {numero}", [par["v2"], par["v3"]])
+
     navegacao = (("/", "Experimentos"), ("/atender", "Novo atendimento"))
 
     def pagina(self, titulo, corpo, ativa):

@@ -1,0 +1,385 @@
+{
+  "execucao": "https://github.com/Cassio327/suporte-claro-ai/actions/runs/44911329057",
+  "protocolo": "https://github.com/Cassio327/suporte-claro-ai/pull/9",
+  "digest_modelo": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "rodadas": [
+    {
+      "timestamp": "2026-11-21T13:58:24.145645+00:00",
+      "versoes": [
+        "v2",
+        "v3"
+      ],
+      "resultados": [
+        {
+          "id": "63548e040c6a405d81fa8f0b1d40a704",
+          "timestamp": "2026-11-21T13:57:53.328796+00:00",
+          "perfil": {
+            "id": "P01",
+            "nivel": "leigo",
+            "estilo": "didático",
+            "canal": "chat"
+          },
+          "ticket": "Meu colega abre o documento que compartilhei, mas só consegue visualizar. Já reenviei o convite e continua igual. Quero que ele consiga editar.",
+          "tipo": "resolucao",
+          "versao": "v2",
+          "provedor": "ollama",
+          "configuracao": {
+            "model": "qwen2.5:3b",
+            "temperature": 0.2,
+            "max_tokens": 1800,
+            "response_format": {
+              "type": "json_schema",
+              "json_schema": {
+                "name": "resolucao",
+                "schema": {
+                  "$defs": {
+                    "Passo": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "acao": {
+                          "minLength": 1,
+                          "title": "Acao",
+                          "type": "string"
+                        },
+                        "como_verificar": {
+                          "minLength": 1,
+                          "title": "Como Verificar",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "acao",
+                        "como_verificar"
+                      ],
+                      "title": "Passo",
+                      "type": "object"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "properties": {
+                    "passos": {
+                      "items": {
+                        "$ref": "#/$defs/Passo"
+                      },
+                      "minItems": 1,
+                      "title": "Passos",
+                      "type": "array"
+                    },
+                    "quando_encaminhar": {
+                      "minLength": 1,
+                      "title": "Quando Encaminhar",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "passos",
+                    "quando_encaminhar"
+                  ],
+                  "title": "Resolucao",
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "modelo_retornado": "qwen2.5:3b",
+          "hash_prompt": "471ec1328a3299ad3f3ccb786a93ddeb8b7fdaea4b100296831df3bdef5f7662",
+          "chave_cache": "e7333dbbf51414e005454231ad5cb9644e767f96a33dd01ac6c5fbc3c609e6f6",
+          "origem": "api",
+          "execucao_original": null,
+          "saida": {
+            "passos": [
+              {
+                "acao": "Verificar se o arquivo foi enviado com permissões de leitura apenas.",
+                "como_verificar": "Abra o documento no Google Drive ou outro serviço de compartilhamento e verifique as permissões concedidas ao seu colega."
+              },
+              {
+                "acao": "Reenviar o convite com permissões de escrita adicionadas.",
+                "como_verificar": "Adicione a opção para edição no próximo convite que você enviar para seu colega e verifique se ele pode editar agora."
+              }
+            ],
+            "quando_encaminhar": "Depois de confirmar que as permissões estão corretas e o colega consegue editar."
+          },
+          "avaliacao": null
+        },
+        {
+          "id": "acbe8f97b7044149815e8970dbd8aea0",
+          "timestamp": "2026-11-21T13:58:24.143706+00:00",
+          "perfil": {
+            "id": "P01",
+            "nivel": "leigo",
+            "estilo": "didático",
+            "canal": "chat"
+          },
+          "ticket": "Meu colega abre o documento que compartilhei, mas só consegue visualizar. Já reenviei o convite e continua igual. Quero que ele consiga editar.",
+          "tipo": "resolucao",
+          "versao": "v3",
+          "provedor": "ollama",
+          "configuracao": {
+            "model": "qwen2.5:3b",
+            "temperature": 0.2,
+            "max_tokens": 1800,
+            "response_format": {
+              "type": "json_schema",
+              "json_schema": {
+                "name": "resolucao",
+                "schema": {
+                  "$defs": {
+                    "Passo": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "acao": {
+                          "minLength": 1,
+                          "title": "Acao",
+                          "type": "string"
+                        },
+                        "como_verificar": {
+                          "minLength": 1,
+                          "title": "Como Verificar",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "acao",
+                        "como_verificar"
+                      ],
+                      "title": "Passo",
+                      "type": "object"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "properties": {
+                    "passos": {
+                      "items": {
+                        "$ref": "#/$defs/Passo"
+                      },
+                      "minItems": 1,
+                      "title": "Passos",
+                      "type": "array"
+                    },
+                    "quando_encaminhar": {
+                      "minLength": 1,
+                      "title": "Quando Encaminhar",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "passos",
+                    "quando_encaminhar"
+                  ],
+                  "title": "Resolucao",
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "modelo_retornado": "qwen2.5:3b",
+          "hash_prompt": "43e56e16f652a82047abf5a2d973456ed5c042ece9aa8c947b1be3219fcac282",
+          "chave_cache": "cff72ed65dea3515d3877ad2959f0bc502b6dde76327b858c99d8e6c01551878",
+          "origem": "api",
+          "execucao_original": null,
+          "saida": {
+            "passos": [
+              {
+                "acao": "Executar um teste de edição simples",
+                "como_verificar": "O colega deve ser capaz de salvar as alterações no documento"
+              }
+            ],
+            "quando_encaminhar": "Encaminhar para suporte após o teste"
+          },
+          "avaliacao": null
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-11-21T13:59:46.537749+00:00",
+      "versoes": [
+        "v2",
+        "v3"
+      ],
+      "resultados": [
+        {
+          "id": "69fa1cb3ea6d4516923a08c13a8a8349",
+          "timestamp": "2026-11-21T13:59:16.022183+00:00",
+          "perfil": {
+            "id": "P01",
+            "nivel": "leigo",
+            "estilo": "didático",
+            "canal": "chat"
+          },
+          "ticket": "Meu colega abre o documento que compartilhei, mas só consegue visualizar. Já reenviei o convite e continua igual. Quero que ele consiga editar.",
+          "tipo": "resolucao",
+          "versao": "v2",
+          "provedor": "ollama",
+          "configuracao": {
+            "model": "qwen2.5:3b",
+            "temperature": 0.2,
+            "max_tokens": 1800,
+            "response_format": {
+              "type": "json_schema",
+              "json_schema": {
+                "name": "resolucao",
+                "schema": {
+                  "$defs": {
+                    "Passo": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "acao": {
+                          "minLength": 1,
+                          "title": "Acao",
+                          "type": "string"
+                        },
+                        "como_verificar": {
+                          "minLength": 1,
+                          "title": "Como Verificar",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "acao",
+                        "como_verificar"
+                      ],
+                      "title": "Passo",
+                      "type": "object"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "properties": {
+                    "passos": {
+                      "items": {
+                        "$ref": "#/$defs/Passo"
+                      },
+                      "minItems": 1,
+                      "title": "Passos",
+                      "type": "array"
+                    },
+                    "quando_encaminhar": {
+                      "minLength": 1,
+                      "title": "Quando Encaminhar",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "passos",
+                    "quando_encaminhar"
+                  ],
+                  "title": "Resolucao",
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "modelo_retornado": "qwen2.5:3b",
+          "hash_prompt": "471ec1328a3299ad3f3ccb786a93ddeb8b7fdaea4b100296831df3bdef5f7662",
+          "chave_cache": "e7333dbbf51414e005454231ad5cb9644e767f96a33dd01ac6c5fbc3c609e6f6",
+          "origem": "api",
+          "execucao_original": null,
+          "saida": {
+            "passos": [
+              {
+                "acao": "Verificar se o arquivo foi enviado com permissões de leitura apenas",
+                "como_verificar": "Abra o documento no seu navegador ou aplicativo e verifique as opções de acesso. Deverá estar marcado como 'Somente visualizar'"
+              },
+              {
+                "acao": "Reenviar o convite com permissões de leitura e edição",
+                "como_verificar": "Reenvie o link do documento para seu colega, desta vez incluindo a opção de 'Leitura e Edição'. Verifique se ele aceita o novo convite"
+              },
+              {
+                "acao": "Verificar permissões no sistema do seu colega",
+                "como_verificar": "Peça ao seu colega que verifique as permissões do documento em sua máquina. Ele deve estar com permissões de leitura e edição para poder editar."
+              }
+            ],
+            "quando_encaminhar": "Após verificar o último passo, encaminhe se ainda não conseguiu acessar"
+          },
+          "avaliacao": null
+        },
+        {
+          "id": "a3d1a757f3064120abde7dfef97d91e0",
+          "timestamp": "2026-11-21T13:59:46.535691+00:00",
+          "perfil": {
+            "id": "P01",
+            "nivel": "leigo",
+            "estilo": "didático",
+            "canal": "chat"
+          },
+          "ticket": "Meu colega abre o documento que compartilhei, mas só consegue visualizar. Já reenviei o convite e continua igual. Quero que ele consiga editar.",
+          "tipo": "resolucao",
+          "versao": "v3",
+          "provedor": "ollama",
+          "configuracao": {
+            "model": "qwen2.5:3b",
+            "temperature": 0.2,
+            "max_tokens": 1800,
+            "response_format": {
+              "type": "json_schema",
+              "json_schema": {
+                "name": "resolucao",
+                "schema": {
+                  "$defs": {
+                    "Passo": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "acao": {
+                          "minLength": 1,
+                          "title": "Acao",
+                          "type": "string"
+                        },
+                        "como_verificar": {
+                          "minLength": 1,
+                          "title": "Como Verificar",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "acao",
+                        "como_verificar"
+                      ],
+                      "title": "Passo",
+                      "type": "object"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "properties": {
+                    "passos": {
+                      "items": {
+                        "$ref": "#/$defs/Passo"
+                      },
+                      "minItems": 1,
+                      "title": "Passos",
+                      "type": "array"
+                    },
+                    "quando_encaminhar": {
+                      "minLength": 1,
+                      "title": "Quando Encaminhar",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "passos",
+                    "quando_encaminhar"
+                  ],
+                  "title": "Resolucao",
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "modelo_retornado": "qwen2.5:3b",
+          "hash_prompt": "43e56e16f652a82047abf5a2d973456ed5c042ece9aa8c947b1be3219fcac282",
+          "chave_cache": "cff72ed65dea3515d3877ad2959f0bc502b6dde76327b858c99d8e6c01551878",
+          "origem": "api",
+          "execucao_original": null,
+          "saida": {
+            "passos": [
+              {
+                "acao": "Executar um teste simples de edição",
+                "como_verificar": "O colega deve ser capaz de salvar as alterações no documento"
+              }
+            ],
+            "quando_encaminhar": "Encaminhar para suporte técnico"
+          },
+          "avaliacao": null
+        }
+      ]
+    }
+  ]
+}

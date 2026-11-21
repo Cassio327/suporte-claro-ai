@@ -5,7 +5,7 @@ from html import escape
 from pathlib import Path
 
 from .__main__ import RAIZ
-from .comparacao import TITULOS, relatorio
+from .comparacao import CRITERIOS, TITULOS, conteudo, relatorio
 from .motor import ler
 from .painel import Laboratorio, opcoes
 from .prompts import mensagens
@@ -15,7 +15,7 @@ REPOSITORIO = "https://github.com/Cassio327/suporte-claro-ai"
 
 class Demonstracao(Laboratorio):
     navegacao = (("index.html", "Experimentos"), ("prompt.html", "Testar prompt"),
-                 ("relatorio.html", "Relatório"), (REPOSITORIO, "GitHub"))
+                 ("avaliar-upload.html", "Avaliar upload"), ("relatorio.html", "Relatório"), (REPOSITORIO, "GitHub"))
 
     def pagina(self, titulo, corpo, ativa):
         pagina_ativa = "index.html" if ativa == "/" else ativa
@@ -30,6 +30,35 @@ class Demonstracao(Laboratorio):
         return ('<p>Explore respostas reais do modelo para tickets fictícios. '
                 'Os quatro casos de login incluem as notas e justificativas do candidato.</p>'
                 '<nav class="casos" aria-label="Escolher experimento">' + "".join(links) + '</nav>')
+
+    def avaliar_upload(self, amostra):
+        registros = sorted(amostra["resultados"], key=lambda item: item["id"])
+        opcoes_nota = '<option value="">Escolha</option>' + "".join(
+            f'<option value="{n}">{n}</option>' for n in range(1, 6))
+        cartoes = []
+        for letra, item in zip("AB", registros, strict=True):
+            campos = []
+            for chave, nome in CRITERIOS.items():
+                prefixo = f"{item['id']}-{chave}"
+                campos.append(f'<fieldset><legend>{escape(nome)}</legend><label>Nota de 1 a 5'
+                              f'<select required name="{prefixo}-nota">{opcoes_nota}</select></label>'
+                              f'<label>Por que essa nota?<textarea required name="{prefixo}-motivo" rows="2">'
+                              '</textarea></label></fieldset>')
+            cartoes.append(f'<article><h2>Resposta {letra}</h2>{conteudo(item["saida"])}'
+                           f'{"".join(campos)}</article>')
+        # JSON dentro de um elemento script não pode conter um fechamento de tag literal.
+        original = json.dumps(amostra, ensure_ascii=False).replace("<", r"\u003c")
+        corpo = (f'<section class="ticket"><b>P01 · leigo · didático · chat</b>'
+                 f'<blockquote>{escape(registros[0]["ticket"])}</blockquote></section>'
+                 '<p>Leia as duas respostas e justifique cada nota com um trecho ou uma omissão. '
+                 'A escala vai de 1 (insuficiente) a 5 (excelente). As versões aparecem após a avaliação. '
+                 'As suas notas ficam no arquivo que você baixar.</p>'
+                 '<form id="rubrica"><section class="par">' + "".join(cartoes) + '</section>'
+                 '<button class="primario">Baixar minha avaliação</button></form>'
+                 '<p id="conclusao" role="status"></p>'
+                 f'<script id="amostra" type="application/json">{original}</script>'
+                 '<script src="rubrica.js" defer></script>')
+        return self.pagina("Avaliar respostas de upload", corpo, "avaliar-upload.html")
 
     def editor(self):
         perfis = {k: f"{k} · {p.nivel} · {p.estilo} · {p.canal}" for k, p in self.perfis.items()}
@@ -53,11 +82,14 @@ siga as <a href="{REPOSITORIO}#executar-no-linux">instruções de execução loc
         destino.mkdir(parents=True, exist_ok=True)
         self.css += """
 .casos{gap:.4rem;padding:.2rem 0}.casos a{color:var(--teal);background:white;border:1px solid var(--line)}
-.casos a[aria-current]{background:var(--teal);color:white}.editor .acoes{margin-top:1rem}
+.casos a[aria-current]{background:var(--teal);color:white}.editor .acoes,#rubrica button{margin-top:1rem}#rubrica fieldset{margin:.8rem 0;border:1px solid var(--line);min-width:0}#rubrica label{margin:.5rem 0}
 """
         for caso in self.casos:
             nome = "index" if caso == "resolucao" else caso
             (destino / f"{nome}.html").write_text(self.comparar(caso), encoding="utf-8")
+        amostra = ler(RAIZ / "samples/upload-v2-v3.json")
+        (destino / "avaliar-upload.html").write_text(self.avaliar_upload(amostra), encoding="utf-8")
+        (destino / "rubrica.js").write_bytes(Path(__file__).with_name("demo-rubrica.js").read_bytes())
         (destino / "prompt.html").write_text(self.editor(), encoding="utf-8")
         dados = {"perfis": {}, "sistemas": {}}
         for perfil in self.perfis.values():
