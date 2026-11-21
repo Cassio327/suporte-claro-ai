@@ -4,13 +4,22 @@ Assistente de atendimento em português. Para um perfil e um ticket, a CLI gera 
 
 ## Comece pela comparação avaliada
 
-Após o setup abaixo, execute `python -m suporte painel` e abra **http://127.0.0.1:8765**. O painel inicia na resolução do ticket de login. Compare as duas respostas e abra **Notas e justificativas** para ver por que repetir a abertura do navegador reduziu a acionabilidade. O seletor também permite comparar os dois níveis técnicos no caso de áudio ou examinar a revisão experimental no upload.
+Após o setup abaixo, execute `python -m suporte painel` e abra **http://127.0.0.1:8765**. O painel inicia na resolução do ticket de login. Compare as duas respostas e abra **Notas e justificativas** para ver por que repetir a abertura do navegador reduziu a acionabilidade. O seletor também permite comparar os dois níveis técnicos no caso de áudio, comparar telefone e e-mail no upload ou examinar a revisão experimental da resolução.
 
 Em **Novo atendimento**, escolha um dos cinco perfis, o conteúdo e a versão e escreva seu ticket. **Ver prévia do prompt** mostra as instruções exatas que o gerador montou. As comparações gravadas e a prévia funcionam offline. **Gerar resposta** usa a configuração de Groq ou Ollama descrita abaixo e mostra a origem (API ou cache), a saída e o caminho do JSON salvo. Prefira tickets fictícios para a demonstração. Encerre com Ctrl+C. Para outra porta, use `python -m suporte painel --porta 8766`.
 
 [Resultados do experimento](RESULTADOS_EXPERIMENTO.md) reúne as conclusões. O [JSON avaliado](samples/login-ollama-avaliado.json) conserva as oito respostas do Qwen e as 24 notas com justificativas. No ticket de login, a resolução v2 repetiu a tentativa de reabrir o navegador. Nesse par, sua acionabilidade caiu de 3 para 1. O fluxo de decisão melhorou de 3/15 para 8/15.
 
 No [teste de personalização e revisão](RESULTADOS_EXPERIMENTO.md#resolução-v3-o-que-mudou-no-atendimento), o mesmo modelo respondeu ao ticket de áudio para um cliente leigo e outro avançado. Uma revisão do prompt foi testada também no upload de arquivos.
+
+## Como conferir os critérios do desafio
+
+| Dimensão do edital | Onde verificar |
+|---|---|
+| Engenharia de prompt (40%) | Em [notas de engenharia](PROMPT_ENGINEERING_NOTES.md), veja o que muda entre as versões. No painel, abra **Novo atendimento → Ver prévia do prompt** para ler as instruções enviadas para cada perfil. |
+| Implementação (30%) | Execute a CLI com o mesmo perfil e ticket duas vezes. A segunda execução mostra a origem `cache`. Os JSONs registram provedor, modelo, versão, timestamp e vínculo com a execução original. |
+| Documentação (20%) | Os comandos abaixo reproduzem a consulta offline, a geração com modelo configurado e a avaliação. As [saídas e a análise da rodada](RESULTADOS_EXPERIMENTO.md) estão disponíveis para conferência. |
+| Extras (10%) | O painel compara respostas lado a lado. Em **Actions → Testes**, as execuções desta revisão disponibilizam o artefato `relatorio-login`. Extraia o HTML e abra-o no navegador para consultar as oito respostas, as 24 notas e suas justificativas sem instalar Python. O teste de navegador percorre o painel em telas de computador e celular. |
 
 ## Executar no Linux
 
@@ -81,7 +90,7 @@ Também é possível fazer a rodada real pelo GitHub. Em **Settings → Secrets 
 
 ## Rodada com modelo local
 
-Em **Actions → Experimento com modelo local → Run workflow**, escolha o cenário `login` para comparar versões, `audio` para gerar duas resoluções v2 (P01 e P02) ou `revisao` para testar a v3 de resolução em áudio e upload. O executor baixa o Qwen 2.5 de 3 bilhões de parâmetros, inicia o servidor Ollama no próprio executor e envia oito requisições para o cenário de login, duas para áudio ou três para a revisão. O artefato `rodada-local` contém os registros do cenário e o identificador dos pesos usados. O processamento utiliza minutos de GitHub Actions. Esse experimento também executa ao abrir ou atualizar um PR do próprio repositório cuja branch começa com `experimento/`.
+Em **Actions → Experimento com modelo local → Run workflow**, escolha o cenário `login` para comparar versões, `audio` para comparar níveis técnicos, `revisao` para testar a v3 de resolução em áudio e upload ou `comunicacao` para comparar canais e estilos em P03, P04 e P05. O executor baixa o Qwen 2.5 de 3 bilhões de parâmetros, inicia o servidor Ollama no próprio executor e envia oito requisições para o cenário de login, duas para áudio ou três para a revisão ou a comparação de comunicação. O artefato `rodada-local` contém os registros do cenário e o identificador dos pesos usados. O processamento utiliza minutos de GitHub Actions. Esse experimento também executa ao abrir ou atualizar um PR do próprio repositório cuja branch começa com `experimento/`.
 
 Em um computador com Ollama em execução, use:
 

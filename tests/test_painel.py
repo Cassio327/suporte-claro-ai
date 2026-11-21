@@ -40,7 +40,7 @@ class TestePainel(unittest.TestCase):
 
     def test_colecao_e_formulario_sem_api(self):
         with patch("suporte.motor.consultar") as api:
-            for caso in ("diagnostico", "perguntas", "resolucao", "fluxo", "perfis", "audio", "upload"):
+            for caso in ("diagnostico", "perguntas", "resolucao", "fluxo", "perfis", "audio", "upload", "canal", "estilo"):
                 status, html = self.pedir("GET", "/?caso=" + caso)
                 self.assertEqual(status, 200)
                 self.assertEqual(html.count("<article>"), 2)

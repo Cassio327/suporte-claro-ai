@@ -75,3 +75,14 @@ A rodada usou os mesmos pesos do Qwen e a mesma configuração da rodada de áud
 **Decisão de versão.** A CLI conserva a v2 como padrão para os quatro conteúdos. A v3 é uma opção experimental apenas para resolução. Nesta rodada de upload, a primeira ação da v3 foi mais útil; no áudio, o comportamento ainda dependeu de detalhes inventados pelo modelo. Cada versão teve uma geração por condição. O efeito sobre outros modelos e atendimentos permanece em aberto.
 
 **Exemplo de critério de aceitação para o áudio.** Um atendente pode pedir a P01 que selecione o microfone usado na reunião, fale uma frase no teste de microfone do aplicativo, se disponível, e confira se consegue ouvir a própria gravação. Para P02, pode pedir que compare a captura do mesmo dispositivo no sistema operacional e no aplicativo. Se apenas o aplicativo falhar, vale verificar a entrada selecionada e a permissão de microfone. São exemplos de referência para revisão humana. As saídas efetivamente geradas estão preservadas nos arquivos vinculados.
+
+## Canal e estilo no mesmo ticket de upload
+
+O Qwen recebeu o mesmo relato de upload interrompido em 70%, a versão v2 de resolução e a mesma configuração. P03, P04 e P05 são clientes de nível intermediário. As três respostas originais são consultáveis no painel e no [JSON da rodada](samples/upload-comunicacao-v2.json). O [registro de execução](https://github.com/Cassio327/suporte-claro-ai/actions/runs/44871297104) identifica o modelo e seus pesos.
+
+| Comparação | O que ocorreu | Limite da orientação |
+|---|---|---|
+| Canal, estilo direto. P03 por telefone e P05 por e-mail | P03 propôs repetir o envio de 18 MB e observar se voltava a parar em 70%. É uma observação fácil de comunicar por voz. P05 pediu verificar a fila de transferência do servidor. | P03 deixou de dizer o que fazer diante de cada resultado. P05 presumiu que o cliente pudesse inspecionar a fila do servidor pelo computador. |
+| Estilo, canal de e-mail. P05 direto e P04 detalhado | P05 deu três passos. P04 deu quatro, com exemplos de aplicativos e verificações mais extensas. | P04 sugeriu inferir o destino do envio pelo ícone e repetiu o teste com arquivo pequeno, embora o ticket já informasse que 1 MB havia funcionado. |
+
+Nesta rodada, o canal e o estilo vieram acompanhados de diferenças perceptíveis na escrita. O tom adequado não garantiu um próximo passo útil. A comparação tem uma geração por perfil, e os identificadores dos perfis também variam. Esta leitura é qualitativa. As notas do candidato permanecem no experimento de login.

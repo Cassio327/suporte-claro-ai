@@ -51,6 +51,11 @@ class Laboratorio:
         upload = pares(ler(arq / "upload-v2-v3.json"))["resolucao"]
         self.casos["upload"] = ("Upload · revisar o prompt", [upload["v2"], upload["v3"]])
 
+        comunicacao = ler(arq / "upload-comunicacao-v2.json")["resultados"]
+        por_perfil = {item["perfil"]["id"]: item for item in comunicacao}
+        self.casos["canal"] = ("Upload · telefone e e-mail", [por_perfil["P03"], por_perfil["P05"]])
+        self.casos["estilo"] = ("Upload · e-mail direto e detalhado", [por_perfil["P05"], por_perfil["P04"]])
+
     def pagina(self, titulo, corpo, ativa):
         links = "".join(f'<a href="{path}"' + (' aria-current="page"' if path == ativa else '')
                         + f'>{label}</a>' for path, label in (("/", "Experimentos"), ("/atender", "Novo atendimento")))
