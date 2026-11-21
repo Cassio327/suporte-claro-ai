@@ -16,7 +16,7 @@ class TesteDemonstracao(TestCase):
             destino = Path(pasta)
             exportar(destino)
             inicial = (destino / "index.html").read_text()
-            for nome in ("diagnostico", "index", "perguntas", "fluxo", "audio", "perfis", "upload", "canal", "estilo"):
+            for nome in ("diagnostico", "index", "perguntas", "fluxo", "audio", "perfis", "upload", "canal", "estilo", "permissao-1", "permissao-2"):
                 self.assertIn(f'href="{nome}.html"', inicial)
                 self.assertEqual((destino / f"{nome}.html").read_text().count("<article>"), 2)
             self.assertEqual((destino / "relatorio.html").read_text().count("/5</b>"), 24)

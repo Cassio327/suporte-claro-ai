@@ -4,7 +4,7 @@ Assistente de atendimento em português. Para um perfil e um ticket, a CLI gera 
 
 ## Demonstração pública
 
-[Abrir o Suporte Claro](https://suporte-claro-cassio.dotingboot32.chatgpt.site). O painel abre na resolução de login. Expanda **Notas e justificativas** e compare o próximo passo sugerido em cada versão. A navegação reúne nove comparações de login, áudio e upload. **Testar prompt** permite escolher perfil, versão e conteúdo e visualizar as instruções para um ticket digitado no navegador. **Relatório** reúne as oito respostas de login e as 24 notas justificadas.
+[Abrir o Suporte Claro](https://suporte-claro-cassio.dotingboot32.chatgpt.site). O painel abre na resolução de login. Expanda **Notas e justificativas** e compare o próximo passo sugerido em cada versão. A navegação reúne as comparações de login, áudio, upload e permissões de edição. Em **Avaliar upload**, você pode pontuar as duas respostas com as versões ocultas e baixar seu próprio JSON. **Testar prompt** permite escolher perfil, versão e conteúdo e visualizar as instruções para um ticket digitado no navegador. **Relatório** reúne as oito respostas de login e as 24 notas justificadas.
 
 A demonstração estática usa as respostas reais preservadas em `samples/` e funciona sem conta ou chave. A geração de novas respostas por um modelo está disponível na aplicação local com Groq ou Ollama. Para reproduzir a publicação após instalar as dependências, execute `python -m suporte.demo dist` e hospede o conteúdo dessa pasta em um servidor estático.
 
@@ -96,7 +96,7 @@ Também é possível fazer a rodada real pelo GitHub. Em **Settings → Secrets 
 
 ## Rodada com modelo local
 
-Em **Actions → Experimento com modelo local → Run workflow**, escolha o cenário `login` para comparar versões, `audio` para comparar níveis técnicos, `revisao` para testar a v3 de resolução em áudio e upload ou `comunicacao` para comparar canais e estilos em P03, P04 e P05. O executor baixa o Qwen 2.5 de 3 bilhões de parâmetros, inicia o servidor Ollama no próprio executor e envia oito requisições para o cenário de login, duas para áudio ou três para a revisão ou a comparação de comunicação. O artefato `rodada-local` contém os registros do cenário e o identificador dos pesos usados. O processamento utiliza minutos de GitHub Actions. Esse experimento também executa ao abrir ou atualizar um PR do próprio repositório cuja branch começa com `experimento/`.
+Em **Actions → Experimento com modelo local → Run workflow**, escolha o cenário `login` para comparar versões, `audio` para comparar níveis técnicos, `revisao` para testar a v3 de resolução em áudio e upload, `comunicacao` para comparar canais e estilos em P03, P04 e P05 ou `permissao` para repetir duas vezes o par v2/v3 em um ticket inédito. O executor baixa o Qwen 2.5 de 3 bilhões de parâmetros, inicia o servidor Ollama no próprio executor e envia oito requisições para o cenário de login, duas para áudio, três para revisão ou comunicação e quatro para permissão. O artefato `rodada-local` contém os registros do cenário e o identificador dos pesos usados. O processamento utiliza minutos de GitHub Actions. Esse experimento também executa ao abrir ou atualizar um PR do próprio repositório cuja branch começa com `experimento/`.
 
 Em um computador com Ollama em execução, use:
 

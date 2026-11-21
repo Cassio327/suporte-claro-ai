@@ -7,6 +7,9 @@ from playwright.sync_api import expect, sync_playwright
 
 from suporte.__main__ import RAIZ
 from suporte.painel import servidor
+from suporte.demo import exportar
+from suporte.comparacao import pares
+from suporte.motor import ler
 
 
 def verificar():
@@ -37,6 +40,32 @@ def verificar():
             for caminho in ("/", "/atender", "/?caso=upload"):
                 page.goto(origem + caminho)
                 assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+            demo = Path(tmp) / "demo"
+            exportar(demo)
+            page.goto((demo / "avaliar-upload.html").as_uri())
+            botao = page.get_by_role("button", name="Baixar minha avaliação")
+            botao.click()
+            expect(page.get_by_role("status")).to_be_empty()
+            for cartao in page.get_by_role("article").all():
+                for campo in cartao.get_by_role("combobox").all():
+                    campo.select_option("3")
+                for motivo in cartao.get_by_role("textbox").all():
+                    motivo.fill("Justificativa fictícia do teste de interface.")
+            with page.expect_download() as download:
+                botao.click()
+            arquivo = Path(tmp) / download.value.suggested_filename
+            download.value.save_as(arquivo)
+            avaliada = ler(arquivo)
+            original = ler(RAIZ / "samples/upload-v2-v3.json")
+            for item, anterior in zip(avaliada["resultados"], original["resultados"], strict=True):
+                for campo in anterior.keys() - {"avaliacao", "avaliado_em"}:
+                    assert item[campo] == anterior[campo]
+            comparacao = pares(avaliada)["resolucao"]
+            for registro in comparacao.values():
+                assert len(registro["avaliacao"]) == 3
+                assert all(nota["nota"] == 3 for nota in registro["avaliacao"].values())
+            expect(page.get_by_role("status")).to_contain_text("Download solicitado")
+            assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
             browser.close()
         finally:
             http.shutdown()

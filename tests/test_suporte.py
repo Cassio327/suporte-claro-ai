@@ -93,6 +93,20 @@ class TesteSuporte(unittest.TestCase):
                     prompt = mensagens(perfil, registro["ticket"], tipo, versao)
                     self.assertEqual(resumo(prompt[0]["content"]), registro["hash_prompt"])
 
+    def test_repeticoes_de_permissao_usam_o_mesmo_cenario_e_geracoes_distintas(self):
+        rodadas = ler(RAIZ / "samples/permissao-v2-v3.json")["rodadas"]
+        self.assertEqual(len(rodadas), 2)
+        registros = [pares(rodada)["resolucao"][versao] for rodada in rodadas for versao in ("v2", "v3")]
+        self.assertEqual(len({item["id"] for item in registros}), 4)
+        for item in registros:
+            self.assertEqual(item["origem"], "api")
+            self.assertIsNone(item["execucao_original"])
+            for campo in ("perfil", "ticket", "tipo", "configuracao", "modelo_retornado", "provedor"):
+                self.assertEqual(item[campo], registros[0][campo])
+        for a, b in zip(registros[:2], registros[2:], strict=True):
+            self.assertEqual(a["hash_prompt"], b["hash_prompt"])
+            self.assertEqual(a["chave_cache"], b["chave_cache"])
+
     def test_amostra_de_comunicacao_isola_canal_e_estilo(self):
         resultados = ler(RAIZ / "samples/upload-comunicacao-v2.json")["resultados"]
         por_id = {item["perfil"]["id"]: item for item in resultados}
