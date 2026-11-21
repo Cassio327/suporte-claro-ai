@@ -1,6 +1,12 @@
 name: Experimento com modelo local
 on:
   workflow_dispatch:
+    inputs:
+      cenario:
+        description: Cenário da rodada
+        type: choice
+        default: login
+        options: [login, audio]
   pull_request:
     types: [opened, synchronize]
 permissions:
@@ -27,6 +33,7 @@ jobs:
           mkdir -p rodada
           curl -fsS http://127.0.0.1:11434/api/tags > rodada/modelos.json
       - name: Gerar quatro pares para o ticket de login
+        if: inputs.cenario != 'audio' && github.head_ref != 'experimento/personalizacao-audio'
         run: |
           python -m suporte comparar --perfil P01 --exemplo login --tipo todos
           cp historico/comparacoes/*.json rodada/comparacao.json
@@ -35,6 +42,15 @@ jobs:
           echo "::endgroup::"
           jq -c . rodada/modelos.json
           echo "Revisão executada $(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
+      - name: Comparar níveis técnicos no ticket de áudio
+        if: inputs.cenario == 'audio' || github.head_ref == 'experimento/personalizacao-audio'
+        run: |
+          for perfil in P01 P02; do
+            python -m suporte --pasta "historico/$perfil" gerar --perfil "$perfil" --exemplo audio --tipo resolucao --versao v2
+            cp "historico/$perfil"/execucoes/*.json "rodada/audio-$perfil.json"
+            jq -c . "rodada/audio-$perfil.json"
+          done
+          jq -c . rodada/modelos.json
       - uses: actions/upload-artifact@v4
         with:
           name: rodada-local
