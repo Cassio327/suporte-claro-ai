@@ -24,6 +24,10 @@ def pares(documento):
     itens = documento.get("resultados") if isinstance(documento, dict) else None
     if not isinstance(itens, list) or not itens:
         raise ValueError("O arquivo precisa conter uma comparação com resultados.")
+    versoes = documento.get("versoes", ["v1", "v2"])
+    if (not isinstance(versoes, list) or len(versoes) != 2
+            or any(v not in ("v1", "v2", "v3") for v in versoes) or versoes[0] == versoes[1]):
+        raise ValueError("A comparação precisa indicar duas versões distintas.")
     grupos = {}
     ids = set()
     cenario = None
@@ -31,7 +35,7 @@ def pares(documento):
         if not isinstance(item, dict):
             raise ValueError("Registro de execução inválido.")
         tipo, versao = item.get("tipo"), item.get("versao")
-        if tipo not in TIPOS or versao not in ("v1", "v2"):
+        if tipo not in TIPOS or versao not in versoes or (versao == "v3" and tipo != "resolucao"):
             raise ValueError("Tipo ou versão de prompt desconhecidos.")
         Perfil.model_validate(item["perfil"])
         TIPOS[tipo].model_validate(item["saida"])
@@ -48,11 +52,12 @@ def pares(documento):
         ids.add(item["id"])
         grupo[versao] = item
     for grupo in grupos.values():
-        if set(grupo) != {"v1", "v2"}:
-            raise ValueError("Cada tipo precisa de uma resposta v1 e outra v2.")
-        if grupo["v1"]["configuracao"] != grupo["v2"]["configuracao"]:
+        if set(grupo) != set(versoes):
+            raise ValueError("Cada tipo precisa de uma resposta de cada versão selecionada.")
+        a, b = (grupo[v] for v in versoes)
+        if a["configuracao"] != b["configuracao"]:
             raise ValueError("As configurações diferem entre as versões deste tipo.")
-        if grupo["v1"]["modelo_retornado"] != grupo["v2"]["modelo_retornado"]:
+        if a["modelo_retornado"] != b["modelo_retornado"]:
             raise ValueError("O provedor retornou modelos diferentes no mesmo par.")
     return grupos
 
@@ -71,9 +76,10 @@ def conteudo(valor):
 
 def relatorio(documento):
     grupos = pares(documento)
+    base, candidata = documento.get("versoes", ["v1", "v2"])
     secoes = []
     for tipo, grupo in grupos.items():
-        a, b = grupo["v1"], grupo["v2"]
+        a, b = grupo[base], grupo[candidata]
         if any(item["avaliacao"] is None for item in (a, b)):
             raise ValueError("Conclua a rubrica com o comando avaliar antes de revelar as versões.")
         linhas = []
@@ -85,10 +91,10 @@ def relatorio(documento):
         cartoes = "".join(
             f"<article><h3>Prompt {v}</h3>{conteudo(grupo[v]['saida'])}"
             f"<small>Execução {escape(grupo[v]['id'])} · {escape(grupo[v]['origem'])}</small></article>"
-            for v in ("v1", "v2"))
+            for v in (base, candidata))
         secoes.append(f"<section><h2>{TITULOS[tipo]}</h2><div class='par'>{cartoes}</div>"
                       "<table><caption>Avaliação do candidato</caption><thead><tr><th>Critério</th>"
-                      "<th>v1</th><th>v2</th><th>v2 − v1</th></tr></thead>"
+                      f"<th>{base}</th><th>{candidata}</th><th>{candidata} − {base}</th></tr></thead>"
                       f"<tbody>{''.join(linhas)}</tbody></table></section>")
     contexto = documento["resultados"][0]
     perfil = " · ".join(escape(contexto["perfil"][k]) for k in ("id", "nivel", "estilo", "canal"))
