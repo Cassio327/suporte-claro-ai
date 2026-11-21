@@ -1,0 +1,187 @@
+{
+  "timestamp": "2026-11-21T00:21:56.199299+00:00",
+  "versoes": [
+    "v2",
+    "v3"
+  ],
+  "resultados": [
+    {
+      "id": "59f2d7ab701548fbb4c1bfbda5542702",
+      "timestamp": "2026-11-21T00:20:56.502273+00:00",
+      "perfil": {
+        "id": "P01",
+        "nivel": "leigo",
+        "estilo": "didático",
+        "canal": "chat"
+      },
+      "ticket": "Um arquivo de 18 MB fica parado em 70% no envio. Um arquivo de 1 MB foi enviado agora pela mesma rede. Não apareceu mensagem de erro.",
+      "tipo": "resolucao",
+      "versao": "v2",
+      "provedor": "ollama",
+      "configuracao": {
+        "model": "qwen2.5:3b",
+        "temperature": 0.2,
+        "max_tokens": 1800,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "resolucao",
+            "schema": {
+              "$defs": {
+                "Passo": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "acao": {
+                      "minLength": 1,
+                      "title": "Acao",
+                      "type": "string"
+                    },
+                    "como_verificar": {
+                      "minLength": 1,
+                      "title": "Como Verificar",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "acao",
+                    "como_verificar"
+                  ],
+                  "title": "Passo",
+                  "type": "object"
+                }
+              },
+              "additionalProperties": false,
+              "properties": {
+                "passos": {
+                  "items": {
+                    "$ref": "#/$defs/Passo"
+                  },
+                  "minItems": 1,
+                  "title": "Passos",
+                  "type": "array"
+                },
+                "quando_encaminhar": {
+                  "minLength": 1,
+                  "title": "Quando Encaminhar",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "passos",
+                "quando_encaminhar"
+              ],
+              "title": "Resolucao",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "modelo_retornado": "qwen2.5:3b",
+      "hash_prompt": "471ec1328a3299ad3f3ccb786a93ddeb8b7fdaea4b100296831df3bdef5f7662",
+      "chave_cache": "04feb6ea899658971e14e5cc4e79501cfd175a7cdeb82a37fda8d585346934ba",
+      "origem": "api",
+      "execucao_original": null,
+      "saida": {
+        "passos": [
+          {
+            "acao": "Verificar o tamanho do arquivo",
+            "como_verificar": "Clique em 'Detalhes' ou 'Mais detalhes' no campo de envio para verificar se o arquivo realmente tem 18 MB."
+          },
+          {
+            "acao": "Reiniciar a conexão",
+            "como_verificar": "Tente reiniciar seu computador e conectar novamente à rede. Verifique também se há outros dispositivos conectados que possam estar usando a mesma conexão."
+          }
+        ],
+        "quando_encaminhar": "Após tentar reiniciar o computador e a conexão, se o problema persistir"
+      },
+      "avaliacao": null
+    },
+    {
+      "id": "a41d0a3c27874ba6a31b574e9c0e1ab9",
+      "timestamp": "2026-11-21T00:21:56.195500+00:00",
+      "perfil": {
+        "id": "P01",
+        "nivel": "leigo",
+        "estilo": "didático",
+        "canal": "chat"
+      },
+      "ticket": "Um arquivo de 18 MB fica parado em 70% no envio. Um arquivo de 1 MB foi enviado agora pela mesma rede. Não apareceu mensagem de erro.",
+      "tipo": "resolucao",
+      "versao": "v3",
+      "provedor": "ollama",
+      "configuracao": {
+        "model": "qwen2.5:3b",
+        "temperature": 0.2,
+        "max_tokens": 1800,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "resolucao",
+            "schema": {
+              "$defs": {
+                "Passo": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "acao": {
+                      "minLength": 1,
+                      "title": "Acao",
+                      "type": "string"
+                    },
+                    "como_verificar": {
+                      "minLength": 1,
+                      "title": "Como Verificar",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "acao",
+                    "como_verificar"
+                  ],
+                  "title": "Passo",
+                  "type": "object"
+                }
+              },
+              "additionalProperties": false,
+              "properties": {
+                "passos": {
+                  "items": {
+                    "$ref": "#/$defs/Passo"
+                  },
+                  "minItems": 1,
+                  "title": "Passos",
+                  "type": "array"
+                },
+                "quando_encaminhar": {
+                  "minLength": 1,
+                  "title": "Quando Encaminhar",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "passos",
+                "quando_encaminhar"
+              ],
+              "title": "Resolucao",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "modelo_retornado": "qwen2.5:3b",
+      "hash_prompt": "43e56e16f652a82047abf5a2d973456ed5c042ece9aa8c947b1be3219fcac282",
+      "chave_cache": "c60d30f488a682c49770f9a7715a96282aaf435b713e0713f0985017d3b17753",
+      "origem": "api",
+      "execucao_original": null,
+      "saida": {
+        "passos": [
+          {
+            "acao": "Enviar um arquivo de teste com tamanho médio (5 MB)",
+            "como_verificar": "Verificar se o arquivo é enviado corretamente e verificar a progressão do envio"
+          }
+        ],
+        "quando_encaminhar": "Encaminhar para suporte técnico após tentar enviar o arquivo de teste"
+      },
+      "avaliacao": null
+    }
+  ]
+}

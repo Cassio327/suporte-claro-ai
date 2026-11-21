@@ -1,0 +1,196 @@
+{
+  "execucao": "https://github.com/Cassio327/suporte-claro-ai/actions/runs/44842058249",
+  "digest_modelo": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "resultados": [
+    {
+      "id": "156e26076c5645f7ad9c61f626cb4620",
+      "timestamp": "2026-11-21T00:14:20.796151+00:00",
+      "perfil": {
+        "id": "P01",
+        "nivel": "leigo",
+        "estilo": "didático",
+        "canal": "chat"
+      },
+      "ticket": "Meus colegas não me ouvem na reunião. Eu consigo ouvi-los. O ícone do microfone aparece ligado.",
+      "tipo": "resolucao",
+      "versao": "v2",
+      "provedor": "ollama",
+      "configuracao": {
+        "model": "qwen2.5:3b",
+        "temperature": 0.2,
+        "max_tokens": 1800,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "resolucao",
+            "schema": {
+              "$defs": {
+                "Passo": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "acao": {
+                      "minLength": 1,
+                      "title": "Acao",
+                      "type": "string"
+                    },
+                    "como_verificar": {
+                      "minLength": 1,
+                      "title": "Como Verificar",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "acao",
+                    "como_verificar"
+                  ],
+                  "title": "Passo",
+                  "type": "object"
+                }
+              },
+              "additionalProperties": false,
+              "properties": {
+                "passos": {
+                  "items": {
+                    "$ref": "#/$defs/Passo"
+                  },
+                  "minItems": 1,
+                  "title": "Passos",
+                  "type": "array"
+                },
+                "quando_encaminhar": {
+                  "minLength": 1,
+                  "title": "Quando Encaminhar",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "passos",
+                "quando_encaminhar"
+              ],
+              "title": "Resolucao",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "modelo_retornado": "qwen2.5:3b",
+      "hash_prompt": "471ec1328a3299ad3f3ccb786a93ddeb8b7fdaea4b100296831df3bdef5f7662",
+      "chave_cache": "74231edc165642235d2be91c0142348d41e71b94ac5ee1372a71f6171cdb3199",
+      "origem": "api",
+      "execucao_original": null,
+      "saida": {
+        "passos": [
+          {
+            "acao": "Verificar se há alguma barreira de som no microfone",
+            "como_verificar": "Tente falar em um local mais próximo ao microfone e verifique se o ícone do microfone continua ligado. Se sim, tente mudar a posição do microfone ou ajustá-lo."
+          },
+          {
+            "acao": "Verificar as configurações de áudio",
+            "como_verificar": "Acesse as opções de som no seu computador e verifique se o microfone está habilitado. Certifique-se também que não há nenhum filtro ou barreira sonora ativada."
+          },
+          {
+            "acao": "Verificar a conexão do microfone",
+            "como_verificar": "Tente desconectar e conectar novamente o microfone. Se ainda assim, o ícone do microfone estiver ligado, verifique se há algum problema de conexão com o computador."
+          }
+        ],
+        "quando_encaminhar": "Após tentar esses passos e verificar que o ícone do microfone continua ligado mesmo após a desconexão e re-conexão, encaminhe para um assistente especializado em problemas de áudio ou faça uma chamada de teste com alguém externo para confirmar se há realmente algum problema na comunicação."
+      },
+      "avaliacao": null
+    },
+    {
+      "id": "6a643312dd56437ba6bb15d95c214a25",
+      "timestamp": "2026-11-21T00:15:49.157859+00:00",
+      "perfil": {
+        "id": "P02",
+        "nivel": "avançado",
+        "estilo": "didático",
+        "canal": "chat"
+      },
+      "ticket": "Meus colegas não me ouvem na reunião. Eu consigo ouvi-los. O ícone do microfone aparece ligado.",
+      "tipo": "resolucao",
+      "versao": "v2",
+      "provedor": "ollama",
+      "configuracao": {
+        "model": "qwen2.5:3b",
+        "temperature": 0.2,
+        "max_tokens": 1800,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "resolucao",
+            "schema": {
+              "$defs": {
+                "Passo": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "acao": {
+                      "minLength": 1,
+                      "title": "Acao",
+                      "type": "string"
+                    },
+                    "como_verificar": {
+                      "minLength": 1,
+                      "title": "Como Verificar",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "acao",
+                    "como_verificar"
+                  ],
+                  "title": "Passo",
+                  "type": "object"
+                }
+              },
+              "additionalProperties": false,
+              "properties": {
+                "passos": {
+                  "items": {
+                    "$ref": "#/$defs/Passo"
+                  },
+                  "minItems": 1,
+                  "title": "Passos",
+                  "type": "array"
+                },
+                "quando_encaminhar": {
+                  "minLength": 1,
+                  "title": "Quando Encaminhar",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "passos",
+                "quando_encaminhar"
+              ],
+              "title": "Resolucao",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "modelo_retornado": "qwen2.5:3b",
+      "hash_prompt": "8e3b8934ac1a189640cfe32cf617d21ef8fabd210e3d05d86783c88afd24dfe6",
+      "chave_cache": "3b7fe77e8f457074a1344a02aaa1ff7c685fe648f33b3696cf872d0e64985b08",
+      "origem": "api",
+      "execucao_original": null,
+      "saida": {
+        "passos": [
+          {
+            "acao": "Tente mudar a posição da câmera no computador",
+            "como_verificar": "Verifique se o ícone do microfone está desligado"
+          },
+          {
+            "acao": "Feche e abra novamente as janelas de vídeo na reunião",
+            "como_verificar": "Verifique se o ícone do microfone está desligado"
+          },
+          {
+            "acao": "Tente mudar a configuração da câmera para um ângulo diferente",
+            "como_verificar": "Verifique se o ícone do microfone está desligado"
+          }
+        ],
+        "quando_encaminhar": "Encaminhe o atendimento caso o ícone do microfone continue desligado após tentar esses passos."
+      },
+      "avaliacao": null
+    }
+  ]
+}
