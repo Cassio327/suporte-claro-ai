@@ -57,3 +57,9 @@ O próximo experimento pode testar uma instrução curta que peça um teste reve
 No teste de áudio com P02, a resolução v2 passou do microfone para a câmera. A v3 restringe o primeiro teste à função que falhou e pede uma verificação que a pessoa consiga perceber ao usar essa função. Conserva o contrato JSON e as instruções de nível, estilo e canal. Essa versão só se aplica à resolução. O histórico mantém os prompts v1 e v2 reproduzíveis.
 
 Antes da segunda rodada, definimos duas verificações: no áudio, observar se o teste volta a tratar da entrada de som; no upload, conferir se o resultado do teste distingue o envio bem-sucedido de uma nova interrupção. O ticket de upload permite observar a mesma instrução em um problema diferente. A leitura técnica está em [Resultados do experimento](RESULTADOS_EXPERIMENTO.md).
+
+## Como isolar canal e estilo
+
+Para o mesmo ticket de upload, P03 e P05 compartilham nível intermediário e estilo direto. Entre os atributos de comunicação, muda o canal. P05 e P04 compartilham nível e canal de e-mail. Muda o estilo. Cada perfil tem também um identificador diferente na entrada. Nos três casos foi usada a resolução v2. Antes da geração, registramos o que observar no [protocolo da rodada](https://github.com/Cassio327/suporte-claro-ai/pull/6).
+
+Para telefone, procure uma pergunta que o atendente consiga dizer e que o cliente possa responder enquanto executa o teste. Para e-mail, verifique se é possível executar o teste e interpretar o resultado sem pedir outra instrução. Para o estilo detalhado, procure uma explicação útil do que o teste permite distinguir. Uma resposta mais longa, por si só, não demonstra melhor adaptação. A análise e os trechos gerados estão em [Resultados do experimento](RESULTADOS_EXPERIMENTO.md#canal-e-estilo-no-mesmo-ticket-de-upload).

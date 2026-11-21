@@ -2,8 +2,11 @@
 from html import escape
 from pathlib import Path
 from string import Template
+from typing import Any, Literal
 
-from .contratos import Avaliacao, Perfil, TIPOS
+from pydantic import BaseModel, ConfigDict, ValidationError
+
+from .contratos import Avaliacao, Perfil, Texto, TIPOS
 
 
 CRITERIOS = {"clareza": "Clareza", "adequacao_ao_nivel": "Adequação ao nível",
@@ -17,6 +20,23 @@ CAMPOS = {"hipoteses": "Hipóteses", "evidencias": "Evidências",
           "pergunta": "Pergunta", "decisao_que_orienta": "Decisão que orienta",
           "condicao_observavel": "Condição", "se_sim": "Se sim", "se_nao": "Se não",
           "se_inconclusivo": "Se o teste for inconclusivo"}
+
+
+class RegistroComparado(BaseModel):
+    """Campos necessários à avaliação de históricos, inclusive os de rodadas antigas."""
+    model_config = ConfigDict(strict=True)
+
+    id: Texto
+    perfil: Perfil
+    ticket: Texto
+    tipo: Literal["diagnostico", "resolucao", "perguntas", "fluxo"]
+    versao: Literal["v1", "v2", "v3"]
+    provedor: Texto
+    configuracao: dict[str, Any]
+    modelo_retornado: Texto | None
+    origem: Literal["api", "cache"]
+    saida: dict[str, Any]
+    avaliacao: Avaliacao | None
 
 
 def pares(documento):
@@ -34,13 +54,18 @@ def pares(documento):
     for item in itens:
         if not isinstance(item, dict):
             raise ValueError("Registro de execução inválido.")
-        tipo, versao = item.get("tipo"), item.get("versao")
-        if tipo not in TIPOS or versao not in versoes or (versao == "v3" and tipo != "resolucao"):
+        try:
+            registro = RegistroComparado.model_validate(item)
+        except ValidationError as erro:
+            campo = ".".join(str(parte) for parte in erro.errors()[0]["loc"])
+            raise ValueError(f"Registro de execução com campo ausente ou inválido: {campo}.") from None
+        modelo = registro.configuracao.get("model")
+        if not isinstance(modelo, str) or not modelo.strip():
+            raise ValueError("O registro precisa indicar o modelo solicitado na configuração.")
+        tipo, versao = registro.tipo, registro.versao
+        if versao not in versoes or (versao == "v3" and tipo != "resolucao"):
             raise ValueError("Tipo ou versão de prompt desconhecidos.")
-        Perfil.model_validate(item["perfil"])
         TIPOS[tipo].model_validate(item["saida"])
-        if item["avaliacao"] is not None:
-            Avaliacao.model_validate(item["avaliacao"])
         contexto = [item[k] for k in ("perfil", "ticket", "provedor")]
         contexto.append({k: v for k, v in item["configuracao"].items() if k != "response_format"})
         if cenario is not None and contexto != cenario:

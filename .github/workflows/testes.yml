@@ -24,3 +24,9 @@ jobs:
         run: |
           python -m pip install playwright==1.56.0
           python tests/navegador.py
+      - name: Disponibilizar relatório de login para leitura offline
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-login
+          path: historico/relatorio-login.html
+          if-no-files-found: error

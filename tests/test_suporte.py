@@ -10,7 +10,8 @@ from unittest.mock import Mock, patch
 import httpx
 from suporte.__main__ import RAIZ, principal
 from suporte.contratos import Perfil, TIPOS
-from suporte.motor import consultar, gerar, ler, salvar
+from suporte.motor import consultar, gerar, ler, resumo, salvar
+from suporte.prompts import mensagens
 from suporte.comparacao import pares, relatorio
 
 EXEMPLOS = ler(RAIZ / "samples/exemplos_didaticos.json")
@@ -74,6 +75,52 @@ class TesteSuporte(unittest.TestCase):
                 doc["resultados"][1][campo] = valor
                 with self.assertRaises(ValueError):
                     pares(doc)
+
+    def test_avaliacao_publicada_preserva_as_geracoes_e_os_prompts(self):
+        amostras = RAIZ / "samples"
+        originais = pares(ler(amostras / "login-ollama.json"))
+        avaliadas = pares(ler(amostras / "login-ollama-avaliado.json"))
+        self.assertEqual(set(avaliadas), set(TIPOS))
+        for tipo, grupo in avaliadas.items():
+            for versao, registro in grupo.items():
+                with self.subTest(tipo=tipo, versao=versao):
+                    avaliado = registro.copy()
+                    self.assertIsNotNone(avaliado.pop("avaliado_em"))
+                    self.assertIsNotNone(avaliado["avaliacao"])
+                    avaliado["avaliacao"] = None
+                    self.assertEqual(avaliado, originais[tipo][versao])
+                    perfil = Perfil.model_validate(registro["perfil"])
+                    prompt = mensagens(perfil, registro["ticket"], tipo, versao)
+                    self.assertEqual(resumo(prompt[0]["content"]), registro["hash_prompt"])
+
+    def test_amostra_de_comunicacao_isola_canal_e_estilo(self):
+        resultados = ler(RAIZ / "samples/upload-comunicacao-v2.json")["resultados"]
+        por_id = {item["perfil"]["id"]: item for item in resultados}
+        self.assertEqual(set(por_id), {"P03", "P04", "P05"})
+        for perfil, atributo in (("P03", "canal"), ("P04", "estilo")):
+            a, b = por_id[perfil], por_id["P05"]
+            with self.subTest(atributo=atributo):
+                for campo in ("ticket", "tipo", "versao", "provedor", "configuracao", "modelo_retornado"):
+                    self.assertEqual(a[campo], b[campo])
+                diferencas = {k for k in a["perfil"] if a["perfil"][k] != b["perfil"][k]}
+                self.assertEqual(diferencas, {"id", atributo})
+        for item in resultados:
+            TIPOS["resolucao"].model_validate(item["saida"])
+            self.assertEqual(item["origem"], "api")
+
+    def test_historico_invalido_da_erro_legivel_e_preserva_o_arquivo(self):
+        for campo, valor in (("configuracao", None), ("configuracao", {}), ("tipo", []), ("id", [])):
+            with self.subTest(campo=campo):
+                doc = self.par()
+                doc["resultados"][0][campo] = valor
+                arquivo = self.pasta / "historico.json"
+                salvar(arquivo, doc)
+                original = arquivo.read_bytes()
+                for comando in ("avaliar", "relatorio"):
+                    with self.assertRaisesRegex(ValueError, "registro|Registro"):
+                        self.cli(comando, str(arquivo))
+                self.assertEqual(arquivo.read_bytes(), original)
+                self.assertFalse(arquivo.with_suffix(".html").exists())
 
     def test_avaliar_oculta_versao_ate_concluir_e_escapa_ticket(self):
         caminho = self.pasta / "par.json"
