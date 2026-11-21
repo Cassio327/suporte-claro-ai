@@ -6,7 +6,7 @@ on:
         description: Cenário da rodada
         type: choice
         default: login
-        options: [login, audio, revisao]
+        options: [login, audio, revisao, comunicacao]
   pull_request:
     types: [opened, synchronize]
 permissions:
@@ -33,7 +33,7 @@ jobs:
           mkdir -p rodada
           curl -fsS http://127.0.0.1:11434/api/tags > rodada/modelos.json
       - name: Gerar quatro pares para o ticket de login
-        if: ${{ !contains(fromJSON('["audio", "revisao"]'), inputs.cenario) && github.head_ref != 'experimento/personalizacao-audio' && github.head_ref != 'experimento/revisao-resolucao' }}
+        if: ${{ !contains(fromJSON('["audio", "revisao", "comunicacao"]'), inputs.cenario) && github.head_ref != 'experimento/personalizacao-audio' && github.head_ref != 'experimento/revisao-resolucao' && github.head_ref != 'experimento/canal-estilo' }}
         run: |
           python -m suporte comparar --perfil P01 --exemplo login --tipo todos
           cp historico/comparacoes/*.json rodada/comparacao.json
@@ -60,6 +60,15 @@ jobs:
           python -m suporte comparar --perfil P01 --exemplo upload --tipo resolucao --versoes v2 v3
           cp historico/comparacoes/*.json rodada/upload-v2-v3.json
           jq -c . rodada/upload-v2-v3.json
+          jq -c . rodada/modelos.json
+      - name: Isolar canal e estilo na resolução de upload
+        if: inputs.cenario == 'comunicacao' || github.head_ref == 'experimento/canal-estilo'
+        run: |
+          for perfil in P03 P04 P05; do
+            python -m suporte --pasta "historico/$perfil" gerar --perfil "$perfil" --exemplo upload --tipo resolucao --versao v2
+            cp "historico/$perfil"/execucoes/*.json "rodada/upload-$perfil.json"
+            jq -c . "rodada/upload-$perfil.json"
+          done
           jq -c . rodada/modelos.json
       - uses: actions/upload-artifact@v4
         with:
