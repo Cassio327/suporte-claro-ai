@@ -22,6 +22,8 @@ details{border-top:1px solid var(--line);padding:.5rem 0}summary{cursor:pointer;
 pre{font:13px/1.55 ui-monospace,monospace;white-space:pre-wrap;padding:1em;background:var(--cream);border-radius:4px}
 pre,code,article,.resultado{overflow-wrap:anywhere}.resultado{margin-top:1rem}.editor>.campos{margin-bottom:1rem}.campos{align-items:end}
 .nota{font-size:.92rem}.aviso{border-left:4px solid #945d16;background:#fff1d6;padding:.7rem 1rem}
+.editor label,.filtro label{grid-template-columns:minmax(0,1fr);min-width:0}
+.editor select,.editor textarea,.filtro select{width:100%;min-width:0}
 a:focus-visible,button:focus-visible,summary:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #c87a1a;outline-offset:3px}
 .skip{position:absolute;left:-100vw}.skip:focus{left:1rem;top:1rem;background:white;padding:.7rem}
 @media(max-width:680px){.par{grid-template-columns:1fr}.topo>div{padding-top:10px;padding-bottom:10px;gap:.35rem}nav a{padding:.35rem .5rem}.campos>label,.filtro label{width:100%}h1{margin-top:.35rem}.campos{align-items:stretch}.editor{padding:16px}}
