@@ -1,12 +1,10 @@
 import argparse
 import json
-import os
 from pathlib import Path
 from uuid import uuid4
-from dotenv import load_dotenv
 from .comparacao import CRITERIOS, pares, relatorio
 from .contratos import Avaliacao, Perfil, TIPOS
-from .motor import agora, gerar, ler, salvar
+from .motor import agora, configuracao_ambiente, gerar, ler, salvar
 from .prompts import mensagens
 
 RAIZ = Path(__file__).resolve().parents[1]
@@ -17,6 +15,8 @@ def argumentos():
     parser.add_argument("--pasta", type=Path, default=Path("historico"), help="Destino dos registros")
     sub = parser.add_subparsers(dest="acao", required=True)
     sub.add_parser("listar", help="Ver perfis e tickets disponíveis")
+    painel = sub.add_parser("painel", help="Abrir o laboratório web local")
+    painel.add_argument("--porta", type=int, default=8765)
     for acao in ("prompt", "gerar", "comparar"):
         cmd = sub.add_parser(acao)
         cmd.add_argument("--perfil", required=True)
@@ -71,6 +71,10 @@ def avaliar(caminho):
 
 def principal():
     args = argumentos()
+    if args.acao == "painel":
+        from .painel import servir
+        servir(RAIZ, args.pasta, args.porta)
+        return
     if args.acao == "relatorio":
         destino = args.saida or args.comparacao.with_suffix(".html")
         if destino.suffix.lower() != ".html":
@@ -94,10 +98,7 @@ def principal():
     ticket = args.ticket if args.ticket is not None else tickets.get(args.exemplo)
     if not ticket or not 1 <= len(ticket.strip()) <= 8000:
         raise ValueError("Informe um ticket válido ou um exemplo exibido por listar.")
-    load_dotenv(RAIZ / ".env")
-    provedor = os.getenv("SUPORTE_PROVEDOR", "groq").strip().lower()
-    modelo = (os.getenv("OLLAMA_MODEL", "qwen2.5:3b") if provedor == "ollama"
-              else os.getenv("GROQ_MODEL", "")).strip()
+    provedor, modelo = configuracao_ambiente(RAIZ)
     versoes = args.versoes if args.acao == "comparar" else [args.versao]
     if len(set(versoes)) != len(versoes):
         raise ValueError("Escolha duas versões distintas para a comparação.")

@@ -16,3 +16,11 @@ jobs:
           mkdir -p historico
           python -m suporte relatorio samples/login-ollama-avaliado.json --saida historico/relatorio-login.html
           test -s historico/relatorio-login.html
+      - name: Testar o painel no Chrome em desktop e celular
+        env:
+          PYTHONPATH: .
+          SUPORTE_PROVEDOR: groq
+          GROQ_MODEL: teste-sem-credencial
+        run: |
+          python -m pip install playwright==1.56.0
+          python tests/navegador.py

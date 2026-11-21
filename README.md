@@ -4,6 +4,10 @@ Assistente de atendimento em português. Para um perfil e um ticket, a CLI gera 
 
 ## Comece pela comparação avaliada
 
+Após o setup abaixo, execute `python -m suporte painel` e abra **http://127.0.0.1:8765**. O painel inicia na resolução do ticket de login. Compare as duas respostas e abra **Notas e justificativas** para ver por que repetir a abertura do navegador reduziu a acionabilidade. O seletor também permite comparar os dois níveis técnicos no caso de áudio ou examinar a revisão experimental no upload.
+
+Em **Novo atendimento**, escolha um dos cinco perfis, o conteúdo e a versão e escreva seu ticket. **Ver prévia do prompt** mostra as instruções exatas que o gerador montou. As comparações gravadas e a prévia funcionam offline. **Gerar resposta** usa a configuração de Groq ou Ollama descrita abaixo e mostra a origem (API ou cache), a saída e o caminho do JSON salvo. Prefira tickets fictícios para a demonstração. Encerre com Ctrl+C. Para outra porta, use `python -m suporte painel --porta 8766`.
+
 [Resultados do experimento](RESULTADOS_EXPERIMENTO.md) reúne as conclusões. O [JSON avaliado](samples/login-ollama-avaliado.json) conserva as oito respostas do Qwen e as 24 notas com justificativas. No ticket de login, a resolução v2 repetiu a tentativa de reabrir o navegador. Nesse par, sua acionabilidade caiu de 3 para 1. O fluxo de decisão melhorou de 3/15 para 8/15.
 
 No [teste de personalização e revisão](RESULTADOS_EXPERIMENTO.md#resolução-v3-o-que-mudou-no-atendimento), o mesmo modelo respondeu ao ticket de áudio para um cliente leigo e outro avançado. Uma revisão do prompt foi testada também no upload de arquivos.
