@@ -1,0 +1,87 @@
+{
+  "id": "d4f47b49a8604f8bb87bccc409f90926",
+  "timestamp": "2026-11-21T00:19:50.204026+00:00",
+  "perfil": {
+    "id": "P02",
+    "nivel": "avançado",
+    "estilo": "didático",
+    "canal": "chat"
+  },
+  "ticket": "Meus colegas não me ouvem na reunião. Eu consigo ouvi-los. O ícone do microfone aparece ligado.",
+  "tipo": "resolucao",
+  "versao": "v3",
+  "provedor": "ollama",
+  "configuracao": {
+    "model": "qwen2.5:3b",
+    "temperature": 0.2,
+    "max_tokens": 1800,
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "resolucao",
+        "schema": {
+          "$defs": {
+            "Passo": {
+              "additionalProperties": false,
+              "properties": {
+                "acao": {
+                  "minLength": 1,
+                  "title": "Acao",
+                  "type": "string"
+                },
+                "como_verificar": {
+                  "minLength": 1,
+                  "title": "Como Verificar",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "acao",
+                "como_verificar"
+              ],
+              "title": "Passo",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "properties": {
+            "passos": {
+              "items": {
+                "$ref": "#/$defs/Passo"
+              },
+              "minItems": 1,
+              "title": "Passos",
+              "type": "array"
+            },
+            "quando_encaminhar": {
+              "minLength": 1,
+              "title": "Quando Encaminhar",
+              "type": "string"
+            }
+          },
+          "required": [
+            "passos",
+            "quando_encaminhar"
+          ],
+          "title": "Resolucao",
+          "type": "object"
+        }
+      }
+    }
+  },
+  "modelo_retornado": "qwen2.5:3b",
+  "hash_prompt": "2df19b73640849eac4b9cef34401597f21be4c19237c83ea9ebacc72b333c986",
+  "chave_cache": "ecd6a9eb89896e8a3590a9e1a87165e75f63c8f9f34b24aab7d41e0555694bc0",
+  "origem": "api",
+  "execucao_original": null,
+  "saida": {
+    "passos": [
+      {
+        "acao": "Executar um teste de áudio simples",
+        "como_verificar": "O microfone da câmera do seu dispositivo deve capturar sons e a luz verde no ícone do microfone deve piscar"
+      }
+    ],
+    "quando_encaminhar": "Encaminhar para suporte técnico após o teste."
+  },
+  "avaliacao": null
+}

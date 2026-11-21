@@ -52,3 +52,8 @@ O próximo experimento pode testar uma instrução curta que peça um teste reve
 
 </details>
 
+## Revisão do passo a passo (v3)
+
+No teste de áudio com P02, a resolução v2 passou do microfone para a câmera. A v3 restringe o primeiro teste à função que falhou e pede uma verificação que a pessoa consiga perceber ao usar essa função. Conserva o contrato JSON e as instruções de nível, estilo e canal. Essa versão só se aplica à resolução. O histórico mantém os prompts v1 e v2 reproduzíveis.
+
+Antes da segunda rodada, definimos duas verificações: no áudio, observar se o teste volta a tratar da entrada de som; no upload, conferir se o resultado do teste distingue o envio bem-sucedido de uma nova interrupção. O ticket de upload permite observar a mesma instrução em um problema diferente. A leitura técnica está em [Resultados do experimento](RESULTADOS_EXPERIMENTO.md).
