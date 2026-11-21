@@ -56,14 +56,19 @@ class Laboratorio:
         self.casos["canal"] = ("Upload · telefone e e-mail", [por_perfil["P03"], por_perfil["P05"]])
         self.casos["estilo"] = ("Upload · e-mail direto e detalhado", [por_perfil["P05"], por_perfil["P04"]])
 
+    navegacao = (("/", "Experimentos"), ("/atender", "Novo atendimento"))
+
     def pagina(self, titulo, corpo, ativa):
         links = "".join(f'<a href="{path}"' + (' aria-current="page"' if path == ativa else '')
-                        + f'>{label}</a>' for path, label in (("/", "Experimentos"), ("/atender", "Novo atendimento")))
+                        + f'>{label}</a>' for path, label in self.navegacao)
         return (f'<!doctype html><html lang="pt-BR"><meta charset="utf-8">'
                 f'<meta name="viewport" content="width=device-width,initial-scale=1"><title>{titulo} | Suporte Claro</title>'
                 f'<style>{self.css}</style><body><a class="skip" href="#principal">Ir para o conteúdo</a>'
                 f'<header class="topo"><div><b>Suporte Claro</b><nav aria-label="Principal">{links}</nav></div></header>'
                 f'<main id="principal"><h1>{titulo}</h1>{corpo}</main></body></html>')
+
+    def filtro(self, nomes, caso):
+        return f'<form class="filtro"><label>Experimento<select name="caso">{opcoes(nomes, caso)}</select></label><button>Ver comparação</button></form>'
 
     def comparar(self, caso):
         if caso not in self.casos:
@@ -71,7 +76,7 @@ class Laboratorio:
         nome, registros = self.casos[caso]
         a, b = registros
         nomes = {k: v[0] for k, v in self.casos.items()}
-        filtro = f'<form class="filtro"><label>Experimento<select name="caso">{opcoes(nomes, caso)}</select></label><button>Ver comparação</button></form>'
+        filtro = self.filtro(nomes, caso)
         modelo = escape(a["modelo_retornado"] or a["configuracao"]["model"])
         contexto = f'<section class="ticket"><b>Ticket do cliente</b><blockquote>{escape(a["ticket"])}</blockquote><small>{modelo} · Duas respostas registradas</small></section>'
         if a["avaliacao"] and b["avaliacao"]:

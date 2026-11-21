@@ -2,6 +2,12 @@
 
 Assistente de atendimento em português. Para um perfil e um ticket, a CLI gera diagnóstico, resolução, perguntas prioritárias ou fluxo de decisão. O comando de comparação executa as duas versões do prompt com a mesma entrada e grava as respostas para avaliação humana.
 
+## Demonstração pública
+
+[Abrir o Suporte Claro](https://suporte-claro-cassio.dotingboot32.chatgpt.site). O painel abre na resolução de login. Expanda **Notas e justificativas** e compare o próximo passo sugerido em cada versão. A navegação reúne nove comparações de login, áudio e upload. **Testar prompt** permite escolher perfil, versão e conteúdo e visualizar as instruções para um ticket digitado no navegador. **Relatório** reúne as oito respostas de login e as 24 notas justificadas.
+
+A demonstração estática usa as respostas reais preservadas em `samples/` e funciona sem conta ou chave. A geração de novas respostas por um modelo está disponível na aplicação local com Groq ou Ollama. Para reproduzir a publicação após instalar as dependências, execute `python -m suporte.demo dist` e hospede o conteúdo dessa pasta em um servidor estático.
+
 ## Comece pela comparação avaliada
 
 Após o setup abaixo, execute `python -m suporte painel` e abra **http://127.0.0.1:8765**. O painel inicia na resolução do ticket de login. Compare as duas respostas e abra **Notas e justificativas** para ver por que repetir a abertura do navegador reduziu a acionabilidade. O seletor também permite comparar os dois níveis técnicos no caso de áudio, comparar telefone e e-mail no upload ou examinar a revisão experimental da resolução.
