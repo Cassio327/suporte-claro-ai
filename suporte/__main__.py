@@ -25,7 +25,10 @@ def argumentos():
         grupo.add_argument("--exemplo")
         cmd.add_argument("--tipo", choices=[*TIPOS, "todos"], default="diagnostico")
         if acao != "comparar":
-            cmd.add_argument("--versao", choices=["v1", "v2"], default="v2")
+            cmd.add_argument("--versao", choices=["v1", "v2", "v3"], default="v2")
+        else:
+            cmd.add_argument("--versoes", nargs=2, choices=["v1", "v2", "v3"], default=["v1", "v2"],
+                             metavar=("BASE", "CANDIDATA"), help="Versões distintas na ordem da comparação")
         if acao != "prompt":
             cmd.add_argument("--novo", action="store_true", help="Ignorar o cache nesta execução")
     cmd = sub.add_parser("avaliar", help="Registrar notas e justificativas do candidato")
@@ -95,11 +98,16 @@ def principal():
     provedor = os.getenv("SUPORTE_PROVEDOR", "groq").strip().lower()
     modelo = (os.getenv("OLLAMA_MODEL", "qwen2.5:3b") if provedor == "ollama"
               else os.getenv("GROQ_MODEL", "")).strip()
+    versoes = args.versoes if args.acao == "comparar" else [args.versao]
+    if len(set(versoes)) != len(versoes):
+        raise ValueError("Escolha duas versões distintas para a comparação.")
+    if "v3" in versoes and args.tipo != "resolucao":
+        raise ValueError("Use --tipo resolucao para a versão experimental v3.")
     resultados = []
     for tipo in TIPOS if args.tipo == "todos" else [args.tipo]:
         if args.acao == "comparar":
             print(f"Comparando o par de {tipo}…", flush=True)
-        for versao in (["v1", "v2"] if args.acao == "comparar" else [args.versao]):
+        for versao in versoes:
             if args.acao == "prompt":
                 mostrar(mensagens(perfil, ticket.strip(), tipo, versao))
                 continue
@@ -113,7 +121,7 @@ def principal():
             print(f"Duas respostas de {tipo} registradas.", flush=True)
     if args.acao == "comparar":
         caminho = args.pasta / "comparacoes" / (uuid4().hex + ".json")
-        documento = {"timestamp": agora(), "resultados": resultados}
+        documento = {"timestamp": agora(), "versoes": versoes, "resultados": resultados}
         pares(documento)
         salvar(caminho, documento)
         print(f"Comparação salva em {caminho}")

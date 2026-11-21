@@ -35,6 +35,16 @@ def mensagens(perfil, ticket, tipo, versao):
     if versao == "v2":
         regra = " ".join([regra, NIVEL[perfil.nivel], ESTILO[perfil.estilo],
                           CANAL[perfil.canal], REFINAMENTOS[tipo]])
+    elif versao == "v3" and tipo == "resolucao":
+        regra = " ".join([
+            NIVEL[perfil.nivel], ESTILO[perfil.estilo], CANAL[perfil.canal],
+            "No primeiro passo, proponha um teste curto e reversível da função que falhou.",
+            "Escolha o componente citado no relato. Use como verificação um resultado que a pessoa possa perceber ao usar essa função.",
+            "Um ícone de estado sozinho não confirma sucesso. Evite repetir tentativas já feitas.",
+            "Se o teste falhar, indique o resultado a informar ao suporte. Mantenha as proteções de segurança ativas.",
+        ])
+    elif versao == "v3":
+        raise ValueError("A versão experimental v3 se aplica somente a resolucao.")
     elif versao != "v1":
         raise ValueError("Versão desconhecida.")
     esquema = json.dumps(TIPOS[tipo].model_json_schema(), ensure_ascii=False)

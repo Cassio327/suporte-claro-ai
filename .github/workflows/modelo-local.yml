@@ -6,7 +6,7 @@ on:
         description: Cenário da rodada
         type: choice
         default: login
-        options: [login, audio]
+        options: [login, audio, revisao]
   pull_request:
     types: [opened, synchronize]
 permissions:
@@ -33,7 +33,7 @@ jobs:
           mkdir -p rodada
           curl -fsS http://127.0.0.1:11434/api/tags > rodada/modelos.json
       - name: Gerar quatro pares para o ticket de login
-        if: inputs.cenario != 'audio' && github.head_ref != 'experimento/personalizacao-audio'
+        if: ${{ !contains(fromJSON('["audio", "revisao"]'), inputs.cenario) && github.head_ref != 'experimento/personalizacao-audio' && github.head_ref != 'experimento/revisao-resolucao' }}
         run: |
           python -m suporte comparar --perfil P01 --exemplo login --tipo todos
           cp historico/comparacoes/*.json rodada/comparacao.json
@@ -50,6 +50,16 @@ jobs:
             cp "historico/$perfil"/execucoes/*.json "rodada/audio-$perfil.json"
             jq -c . "rodada/audio-$perfil.json"
           done
+          jq -c . rodada/modelos.json
+      - name: Testar a revisão no áudio e no upload
+        if: inputs.cenario == 'revisao' || github.head_ref == 'experimento/revisao-resolucao'
+        run: |
+          python -m suporte gerar --perfil P02 --exemplo audio --tipo resolucao --versao v3
+          cp historico/execucoes/*.json rodada/audio-P02-v3.json
+          jq -c . rodada/audio-P02-v3.json
+          python -m suporte comparar --perfil P01 --exemplo upload --tipo resolucao --versoes v2 v3
+          cp historico/comparacoes/*.json rodada/upload-v2-v3.json
+          jq -c . rodada/upload-v2-v3.json
           jq -c . rodada/modelos.json
       - uses: actions/upload-artifact@v4
         with:

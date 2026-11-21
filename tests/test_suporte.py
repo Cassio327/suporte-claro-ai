@@ -142,3 +142,24 @@ class TesteSuporte(unittest.TestCase):
             gerar(self.pasta, PERFIL, "  ", "fluxo", "v2", "teste", chamar=api)
         api.assert_not_called()
 
+    def test_versoes_experimentais_na_cli_e_no_relatorio(self):
+        with patch.dict(os.environ, GROQ_MODEL="teste"), patch("suporte.motor.consultar",
+                return_value=(EXEMPLOS["resolucao"], "teste")) as api:
+            with self.assertRaisesRegex(ValueError, "resolucao"):
+                self.cli("comparar", "--perfil", "P01", "--exemplo", "upload", "--tipo", "todos",
+                         "--versoes", "v2", "v3")
+            api.assert_not_called()
+            self.cli("comparar", "--perfil", "P01", "--exemplo", "upload", "--tipo", "resolucao",
+                     "--versoes", "v2", "v3")
+            self.assertEqual(api.call_count, 2)
+        caminho = next((self.pasta / "comparacoes").glob("*.json"))
+        doc = ler(caminho)
+        self.assertEqual(doc["versoes"], ["v2", "v3"])
+        self.assertNotEqual(*[r["hash_prompt"] for r in doc["resultados"]])
+        with patch("builtins.input", side_effect=["3", "Teste de leitura."] * 6):
+            self.cli("avaliar", str(caminho))
+        pagina = relatorio(ler(caminho))
+        self.assertIn("v3 − v2", pagina)
+        self.assertIn("<h3>Prompt v3</h3>", pagina)
+        self.assertNotIn("<h3>Prompt v1</h3>", pagina)
+
