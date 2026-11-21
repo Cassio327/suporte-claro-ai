@@ -6,7 +6,7 @@ on:
         description: Cenário da rodada
         type: choice
         default: login
-        options: [login, audio, revisao, comunicacao]
+        options: [login, audio, revisao, comunicacao, permissao]
   pull_request:
     types: [opened, synchronize]
 permissions:
@@ -33,7 +33,7 @@ jobs:
           mkdir -p rodada
           curl -fsS http://127.0.0.1:11434/api/tags > rodada/modelos.json
       - name: Gerar quatro pares para o ticket de login
-        if: ${{ !contains(fromJSON('["audio", "revisao", "comunicacao"]'), inputs.cenario) && github.head_ref != 'experimento/personalizacao-audio' && github.head_ref != 'experimento/revisao-resolucao' && github.head_ref != 'experimento/canal-estilo' }}
+        if: ${{ !contains(fromJSON('["audio", "revisao", "comunicacao", "permissao"]'), inputs.cenario) && github.head_ref != 'experimento/personalizacao-audio' && github.head_ref != 'experimento/revisao-resolucao' && github.head_ref != 'experimento/canal-estilo' && github.head_ref != 'experimento/permissao-documento' }}
         run: |
           python -m suporte comparar --perfil P01 --exemplo login --tipo todos
           cp historico/comparacoes/*.json rodada/comparacao.json
@@ -68,6 +68,18 @@ jobs:
             python -m suporte --pasta "historico/$perfil" gerar --perfil "$perfil" --exemplo upload --tipo resolucao --versao v2
             cp "historico/$perfil"/execucoes/*.json "rodada/upload-$perfil.json"
             jq -c . "rodada/upload-$perfil.json"
+          done
+          jq -c . rodada/modelos.json
+      - name: Testar as duas versões em um ticket inédito de permissão
+        if: inputs.cenario == 'permissao' || github.head_ref == 'experimento/permissao-documento'
+        env:
+          TICKET: "Meu colega abre o documento que compartilhei, mas só consegue visualizar. Já reenviei o convite e continua igual. Quero que ele consiga editar."
+        run: |
+          for rodada in 1 2; do
+            pasta="historico/permissao-$rodada"
+            python -m suporte --pasta "$pasta" comparar --perfil P01 --ticket "$TICKET" --tipo resolucao --versoes v2 v3 --novo
+            cp "$pasta"/comparacoes/*.json "rodada/permissao-$rodada.json"
+            jq -c . "rodada/permissao-$rodada.json"
           done
           jq -c . rodada/modelos.json
       - uses: actions/upload-artifact@v4
