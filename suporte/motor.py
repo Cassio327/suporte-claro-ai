@@ -7,12 +7,21 @@ from tempfile import NamedTemporaryFile
 from uuid import uuid4
 
 import httpx
+from dotenv import load_dotenv
 from pydantic import ValidationError
 from .contratos import TIPOS
 from .prompts import mensagens
 
 ENDPOINT = "https://api.groq.com/openai/v1/chat/completions"
 LOCAL = "http://127.0.0.1:11434/v1/chat/completions"
+
+
+def configuracao_ambiente(raiz):
+    load_dotenv(raiz / ".env")
+    provedor = os.getenv("SUPORTE_PROVEDOR", "groq").strip().lower()
+    modelo = (os.getenv("OLLAMA_MODEL", "qwen2.5:3b") if provedor == "ollama"
+              else os.getenv("GROQ_MODEL", "")).strip()
+    return provedor, modelo
 
 
 def agora():
