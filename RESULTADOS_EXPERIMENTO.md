@@ -2,7 +2,7 @@
 
 ## Escopo
 
-Esta análise consolida a avaliação humana de uma única rodada com oito gerações: quatro tipos de conteúdo (`diagnostico`, `resolucao`, `perguntas` e `fluxo`) nas versões v1 e v2 do prompt.
+A rodada principal de login reúne oito gerações e 24 notas do candidato. As tabelas numéricas a seguir se referem a essa rodada. As seções de áudio, upload e permissão de edição registram os experimentos complementares de personalização e de revisão da resolução.
 
 - Perfil: P01 — leigo, didático, chat.
 - Ticket: retorno à tela de login no notebook após digitar a senha; a conta funciona no celular; o navegador já foi fechado e aberto.

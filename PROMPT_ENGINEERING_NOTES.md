@@ -6,7 +6,7 @@ Cada tipo usa uma estratégia de geração com uma instrução e um contrato pr�
 
 A v1 descreve a tarefa, apresenta o perfil e pede adaptação. Na v2, cada atributo passa a orientar uma escolha de redação. Por exemplo, P03 pede frases que o atendente possa falar ao telefone. A v2 também instrui o gerador de perguntas a verificar o que já está respondido no ticket. Ambas recebem o mesmo esquema JSON. O programa valida tipos e campos localmente. A fidelidade factual exige leitura da resposta.
 
-## Experimento proposto
+## Protocolo do experimento de login
 
 Para o ticket de login, o cliente já reiniciou o navegador e informou que a conta funciona no celular. Antes de executar, registramos duas previsões. A v2 deve aproveitar esses dois sinais para escolher a próxima pergunta e deve reduzir a repetição de passos. Um resultado desfavorável possível é explicar demais uma ação simples no chat.
 
@@ -48,7 +48,7 @@ Nas perguntas, a primeira da v2 pede confirmação sobre mensagens de erro. O ti
 
 O fluxo da v1 sugere desligar temporariamente proteções do notebook. Essa orientação é inadequada para este cenário e deve ser descartada na revisão do atendimento. O exemplo é preservado como evidência do comportamento original do modelo.
 
-O próximo experimento pode testar uma instrução curta que peça um teste reversível ainda não realizado, com dois resultados observáveis e encaminhamentos diferentes, e que proíba desativar proteções. Manter as respostas desta rodada e validar qualquer mudança em um segundo ticket inédito. Essas observações técnicas não atribuem notas ao candidato nem permitem generalizar a superioridade de uma versão.
+A repetição do teste de login motivou a v3 de resolução. A nova instrução pede um teste reversível da função que falhou e um resultado observável. No upload, a v3 propôs um teste com um arquivo de tamanho intermediário. Já no ticket inédito de edição, omitiu a conferência da permissão nas duas repetições. Por isso, a v2 segue como padrão. [Resultados das rodadas](RESULTADOS_EXPERIMENTO.md)
 
 </details>
 
