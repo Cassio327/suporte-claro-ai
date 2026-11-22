@@ -66,10 +66,10 @@ def pares(documento):
         if versao not in versoes or (versao == "v3" and tipo != "resolucao"):
             raise ValueError("Tipo ou versão de prompt desconhecidos.")
         TIPOS[tipo].model_validate(item["saida"])
-        contexto = [item[k] for k in ("perfil", "ticket", "provedor")]
+        contexto = [item[k] for k in ("perfil", "ticket", "provedor", "modelo_retornado")]
         contexto.append({k: v for k, v in item["configuracao"].items() if k != "response_format"})
         if cenario is not None and contexto != cenario:
-            raise ValueError("As entradas, o provedor ou a configuração diferem na comparação.")
+            raise ValueError("As entradas, o provedor, o modelo retornado ou a configuração diferem na comparação.")
         cenario = contexto
         grupo = grupos.setdefault(tipo, {})
         if item["id"] in ids or versao in grupo:
@@ -82,8 +82,6 @@ def pares(documento):
         a, b = (grupo[v] for v in versoes)
         if a["configuracao"] != b["configuracao"]:
             raise ValueError("As configurações diferem entre as versões deste tipo.")
-        if a["modelo_retornado"] != b["modelo_retornado"]:
-            raise ValueError("O provedor retornou modelos diferentes no mesmo par.")
     return grupos
 
 

@@ -157,6 +157,52 @@ class TesteSuporte(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Cache inválido"):
             gerar(self.pasta, PERFIL, a["ticket"], a["tipo"], "v1", "teste")
 
+    def test_cache_com_metadados_alterados_permite_recuperar_com_novo(self):
+        api = Mock(return_value=(EXEMPLOS["resolucao"], "teste"))
+        args = (self.pasta, PERFIL, "Meu ticket", "resolucao", "v2", "teste")
+        original = gerar(*args, chamar=api)
+        cache = self.pasta / "cache" / (original["chave_cache"] + ".json")
+        for campo, valor in (("ticket", "Outro ticket"), ("perfil", {}), ("provedor", "ollama"),
+                             ("versao", "v1"), ("configuracao", {}), ("hash_prompt", ""),
+                             ("id", []), ("modelo_retornado", [])):
+            with self.subTest(campo=campo):
+                salvar(cache, {**original, campo: valor})
+                with self.assertRaisesRegex(ValueError, "Cache inválido"):
+                    gerar(*args, chamar=api)
+        self.assertEqual(len(list((self.pasta / "execucoes").iterdir())), 1)
+        recuperado = gerar(*args, chamar=api, novo=True)
+        self.assertEqual(gerar(*args, chamar=api)["execucao_original"], recuperado["id"])
+        self.assertEqual(api.call_count, 2)
+
+    def test_modelo_invalido_nao_grava_geracao_e_modelo_omitido_e_aceito(self):
+        args = (self.pasta, PERFIL, "Ticket", "resolucao", "v2", "teste")
+        for valor in ([], False, "  "):
+            with self.subTest(valor=valor), self.assertRaisesRegex(ValueError, "modelo"):
+                gerar(*args, chamar=Mock(return_value=(EXEMPLOS["resolucao"], valor)))
+        self.assertEqual(list(self.pasta.iterdir()), [])
+        registro = gerar(*args, chamar=Mock(return_value=(EXEMPLOS["resolucao"], None)))
+        self.assertIsNone(registro["modelo_retornado"])
+        self.assertEqual(gerar(*args)["execucao_original"], registro["id"])
+
+    def test_comparacao_rejeita_mudanca_de_modelo_entre_tipos(self):
+        doc = ler(RAIZ / "samples/login-ollama-avaliado.json")
+        for item in doc["resultados"]:
+            if item["tipo"] == "fluxo":
+                item["modelo_retornado"] = "outro"
+        with self.assertRaisesRegex(ValueError, "modelo retornado"):
+            relatorio(doc)
+
+    def test_avaliar_repete_apenas_o_campo_invalido(self):
+        arquivo = self.pasta / "par.json"
+        salvar(arquivo, self.par())
+        respostas = ["0", "4", "  ", "Há um teste claro."] + ["3", "Passo verificável."] * 5
+        with patch("builtins.input", side_effect=respostas) as teclado:
+            self.cli("avaliar", str(arquivo))
+        perguntas = [chamada.args[0] for chamada in teclado.call_args_list]
+        self.assertEqual(perguntas[:4], ["Clareza (1–5): "] * 2 + ["Sua justificativa: "] * 2)
+        primeiro = min(ler(arquivo)["resultados"], key=lambda item: item["id"])
+        self.assertEqual(primeiro["avaliacao"]["clareza"], {"nota": 4, "justificativa": "Há um teste claro."})
+
     def test_api_truncada_tem_erro_especifico(self):
         resposta = httpx.Response(200, request=httpx.Request("POST", "https://example.test"),
                                   json={"choices": [{"finish_reason": "length", "message": {"content": "{}"}}]})

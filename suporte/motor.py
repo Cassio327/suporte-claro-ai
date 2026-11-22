@@ -55,6 +55,12 @@ def ler(caminho):
     return json.loads(caminho.read_text(encoding="utf-8"))
 
 
+def validar_modelo_retornado(valor):
+    if valor is not None and (not isinstance(valor, str) or not valor.strip()):
+        raise ValueError("Identificador de modelo inválido na resposta do provedor.")
+    return valor
+
+
 def consultar(payload, provedor="groq"):
     local = provedor == "ollama"
     headers = {}
@@ -102,36 +108,38 @@ def gerar(pasta, perfil, ticket, tipo, versao, modelo, novo=False, chamar=None, 
     msgs = mensagens(perfil, ticket, tipo, versao)
     config = {"model": modelo, "temperature": 0.2, "max_completion_tokens": 1800,
               "response_format": {"type": "json_object"}}
-    payload = {**config, "messages": msgs}
     if provedor == "ollama":
         config = {"model": modelo, "temperature": 0.2, "max_tokens": 1800,
                   "response_format": {"type": "json_schema", "json_schema": {
                       "name": tipo, "schema": TIPOS[tipo].model_json_schema()}}}
-        payload = {**config, "messages": msgs}
+    payload = {**config, "messages": msgs}
     chave = resumo([LOCAL if provedor == "ollama" else ENDPOINT, tipo, versao, payload])
+    contexto = {"perfil": perfil.model_dump(), "ticket": ticket, "tipo": tipo, "versao": versao,
+                "provedor": provedor, "configuracao": config, "hash_prompt": resumo(msgs[0]["content"]),
+                "chave_cache": chave}
     cache = pasta / "cache" / (chave + ".json")
     origem = None
     if cache.exists() and not novo:
         try:
             anterior = ler(cache)
-            if anterior["chave_cache"] != chave or anterior["origem"] != "api" or not anterior["id"]:
+            if any(anterior[campo] != valor for campo, valor in contexto.items()):
+                raise ValueError("Contexto do cache incompatível com a requisição.")
+            if anterior["origem"] != "api" or not isinstance(anterior["id"], str) or not anterior["id"].strip():
                 raise ValueError("Identidade do registro incompatível.")
             saida = TIPOS[tipo].model_validate(anterior["saida"]).model_dump()
-            modelo_retornado = anterior["modelo_retornado"]
+            modelo_retornado = validar_modelo_retornado(anterior["modelo_retornado"])
             origem = anterior["id"]
         except (ValueError, TypeError, KeyError):
             raise ValueError("Cache inválido. Use --novo para gerar novamente.") from None
     else:
         bruto, modelo_retornado = chamar(payload) if chamar else consultar(payload, provedor)
+        validar_modelo_retornado(modelo_retornado)
         try:
             saida = TIPOS[tipo].model_validate(bruto).model_dump()
         except ValidationError as erro:
             campo = ".".join(map(str, erro.errors()[0]["loc"])) or "raiz"
             raise ValueError(f"Saída incompatível com o contrato de {tipo} no campo {campo}.") from None
-    registro = {"id": uuid4().hex, "timestamp": agora(), "perfil": perfil.model_dump(),
-                "ticket": ticket, "tipo": tipo, "versao": versao, "provedor": provedor,
-                "configuracao": config, "modelo_retornado": modelo_retornado,
-                "hash_prompt": resumo(msgs[0]["content"]), "chave_cache": chave,
+    registro = {**contexto, "id": uuid4().hex, "timestamp": agora(), "modelo_retornado": modelo_retornado,
                 "origem": "cache" if origem else "api", "execucao_original": origem,
                 "saida": saida, "avaliacao": None}
     salvar(pasta / "execucoes" / (registro["id"] + ".json"), registro)

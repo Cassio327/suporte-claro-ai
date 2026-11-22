@@ -58,10 +58,14 @@ def avaliar(caminho):
         for criterio in Avaliacao.model_fields:
             while True:
                 valor = input(f"{CRITERIOS[criterio]} (1–5): ").strip()
-                motivo = input("Sua justificativa: ").strip()
-                if valor in ("1", "2", "3", "4", "5") and motivo:
+                if valor in ("1", "2", "3", "4", "5"):
                     break
-                print("Informe uma nota inteira de 1 a 5 e uma justificativa.")
+                print("Informe uma nota inteira de 1 a 5.")
+            while True:
+                motivo = input("Sua justificativa: ").strip()
+                if motivo:
+                    break
+                print("Explique sua nota com um trecho da resposta ou uma omissão.")
             notas[criterio] = {"nota": int(valor), "justificativa": motivo}
         item["avaliacao"] = Avaliacao.model_validate(notas).model_dump()
         item["avaliado_em"] = agora()

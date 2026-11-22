@@ -25,7 +25,7 @@ No [teste de personalização e revisão](RESULTADOS_EXPERIMENTO.md#resolução-
 | Engenharia de prompt (40%) | Em [notas de engenharia](PROMPT_ENGINEERING_NOTES.md), veja o que muda entre as versões. No painel, abra **Novo atendimento → Ver prévia do prompt** para ler as instruções enviadas para cada perfil. |
 | Implementação (30%) | Execute a CLI com o mesmo perfil e ticket duas vezes. A segunda execução mostra a origem `cache`. Os JSONs registram provedor, modelo, versão, timestamp e vínculo com a execução original. |
 | Documentação (20%) | Os comandos abaixo reproduzem a consulta offline, a geração com modelo configurado e a avaliação. As [saídas e a análise da rodada](RESULTADOS_EXPERIMENTO.md) estão disponíveis para conferência. |
-| Extras (10%) | O painel compara respostas lado a lado. Em **Actions → Testes**, as execuções desta revisão disponibilizam o artefato `relatorio-login`. Extraia o HTML e abra-o no navegador para consultar as oito respostas, as 24 notas e suas justificativas sem instalar Python. O teste de navegador percorre o painel em telas de computador e celular. |
+| Extras (10%) | A [demonstração pública](https://suporte-claro-cassio.dotingboot32.chatgpt.site) permite comparar respostas e preencher a rubrica. O [relatório de login](https://suporte-claro-cassio.dotingboot32.chatgpt.site/relatorio.html) abre direto no navegador. Em **Actions → Testes**, o artefato `relatorio-login` disponibiliza a cópia offline. |
 
 ## Executar no Linux
 
@@ -118,6 +118,8 @@ A CLI carrega o perfil e o ticket e monta as mensagens da versão escolhida. O m
 | `suporte/contratos.py` | Campos aceitos para cada saída e para as notas |
 | `suporte/motor.py` | Requisição à Groq ou ao Ollama, validação, cache e gravação em JSON |
 | `suporte/__main__.py` | Seleção de parâmetros, comparação e avaliação |
+| `suporte/comparacao.py` | Verificação da equivalência da rodada e geração do relatório HTML |
+| `suporte/painel.py` e `suporte/demo.py` | Atendimento local e exportação da demonstração pública |
 | `samples/exemplos_didaticos.json` | Quatro exemplos escritos à mão para explicar o formato e testar offline |
 | `PROMPT_ENGINEERING_NOTES.md` | Desenho da comparação, hipóteses e limitações |
 
@@ -129,4 +131,4 @@ Arquivos locais ficam em `historico/execucoes/`, `historico/cache/` e `historico
 python -m unittest discover -s tests -v
 ```
 
-Os testes simulam a resposta HTTP para verificar cache, validação, comparação dos quatro conteúdos e persistência das notas. A qualidade das respostas do modelo precisa ser aferida com a rodada real e a rubrica do candidato.
+Os testes simulam a API para verificar o cache e o tratamento de falhas. Também conferem se as respostas do login avaliado correspondem às gerações originais. A análise da qualidade de cada versão usa [as 24 notas e suas justificativas](samples/login-ollama-avaliado.json). No GitHub Actions, um teste adicional abre o painel no navegador, preenche a rubrica de upload e confere o JSON baixado.
